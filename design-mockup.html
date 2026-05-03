@@ -1,0 +1,1666 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ders Forumu — UI/UX redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   DERS FORUMU — Redesign mockup
+   Design system + 3 full views in one page
+   ============================================= */
+
+:root{
+  /* Brand */
+  --navy-900:#0A1733;
+  --navy-800:#0F2047;
+  --navy-700:#14296A;
+  --navy-600:#1B3490;
+  --navy-500:#003087;      /* Sabancı navy */
+  --navy-200:#C7D0E6;
+  --navy-100:#E6ECF8;
+
+  --red-500:#E3001B;       /* Sabancı red */
+  --red-400:#FF3B52;
+  --red-50:#FFE8EC;
+
+  --ink-900:#0B1220;
+  --ink-700:#374151;
+  --ink-500:#6B7280;
+  --ink-300:#9CA3AF;
+
+  --cream:#FAF6EE;
+  --cream-2:#F3ECDC;
+  --paper:#FFFFFF;
+  --mist:#EEF1F7;
+  --line:#E4E8F1;
+
+  --amber:#F6A623;
+  --mint:#10B981;
+  --plum:#7C3AED;
+  --teal:#0EA5A6;
+
+  --shadow-sm: 0 1px 2px rgba(11,18,32,.06), 0 1px 1px rgba(11,18,32,.03);
+  --shadow-md: 0 8px 24px -12px rgba(11,18,32,.18), 0 2px 6px rgba(11,18,32,.06);
+  --shadow-lg: 0 30px 60px -24px rgba(11,18,32,.35), 0 10px 20px -10px rgba(11,18,32,.18);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--cream);color:var(--ink-900);font-family:'Inter',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11"}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{max-width:100%;display:block}
+
+.serif{font-family:'Fraunces',ui-serif,Georgia,serif;font-optical-sizing:auto;letter-spacing:-0.01em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+/* ---------- Top ribbon (meta) ---------- */
+.ribbon{
+  background:var(--navy-900);color:#C7D0E6;
+  font-size:12px;letter-spacing:.04em;
+  display:flex;justify-content:center;align-items:center;gap:18px;
+  padding:8px 20px;
+}
+.ribbon b{color:#fff;font-weight:600}
+.ribbon .dot{width:4px;height:4px;border-radius:100%;background:var(--red-500)}
+
+/* ---------- Navbar ---------- */
+.nav-wrap{position:sticky;top:0;z-index:40;background:rgba(250,246,238,.78);backdrop-filter:saturate(1.2) blur(14px);-webkit-backdrop-filter:saturate(1.2) blur(14px);border-bottom:1px solid rgba(228,232,241,.6)}
+.nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:14px 24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--navy-900)}
+.logo-mark{
+  width:34px;height:34px;border-radius:10px;background:var(--navy-500);
+  display:grid;place-items:center;color:#fff;font-weight:800;font-family:'Fraunces';font-size:18px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08), 0 6px 14px -6px rgba(0,48,135,.6);
+  position:relative; overflow:hidden;
+}
+.logo-mark::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:var(--red-500)}
+.logo-mark span{position:relative;z-index:1}
+.logo .kicker{display:block;font-size:10px;letter-spacing:.22em;color:var(--ink-500);font-weight:600;text-transform:uppercase;margin-top:2px}
+.logo .name{font-family:'Fraunces';font-size:20px;letter-spacing:-0.01em}
+
+.nav-links{display:flex;gap:4px;margin-left:8px}
+.nav-link{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ink-700)}
+.nav-link:hover{background:rgba(20,41,106,.06);color:var(--navy-900)}
+.nav-link.active{background:var(--navy-900);color:#fff}
+
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.search-pill{
+  display:flex;align-items:center;gap:10px;
+  background:#fff;border:1px solid var(--line);
+  padding:8px 14px;border-radius:999px;min-width:280px;
+  box-shadow:var(--shadow-sm);
+  color:var(--ink-500);font-size:13px;
+}
+.search-pill kbd{
+  margin-left:auto;font-family:'JetBrains Mono';font-size:11px;
+  padding:2px 6px;border-radius:6px;background:var(--mist);color:var(--ink-500);border:1px solid var(--line)
+}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn-primary{background:var(--navy-900);color:#fff}
+.btn-primary:hover{background:#000a22;transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn-ghost{color:var(--navy-900)}
+.btn-ghost:hover{background:rgba(20,41,106,.06)}
+.btn-red{background:var(--red-500);color:#fff}
+.btn-red:hover{background:#b8001a}
+
+.avatar{
+  width:36px;height:36px;border-radius:100%;
+  background:linear-gradient(135deg,#FFD99B,#F6A623);
+  color:#5B2F00;display:grid;place-items:center;font-weight:700;font-size:13px;
+  box-shadow:inset 0 0 0 2px #fff, 0 0 0 1px var(--line);
+}
+
+/* ---------- Sections ---------- */
+section{padding:40px 24px}
+.container{max-width:1240px;margin:0 auto}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;overflow:hidden;
+  padding:56px 24px 72px;
+  background:
+    radial-gradient(1200px 520px at 10% -10%, rgba(227,0,27,.16), transparent 60%),
+    radial-gradient(900px 480px at 100% 10%, rgba(255,255,255,.10), transparent 60%),
+    linear-gradient(180deg,#09122B 0%, #0F2047 60%, #14296A 100%);
+  color:#fff;
+  border-bottom-left-radius:36px;border-bottom-right-radius:36px;
+}
+.hero::before{
+  /* grain */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.08;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+.hero::after{
+  content:"";position:absolute;inset:auto -10% -40% -10%;height:60%;
+  background:radial-gradient(ellipse at center, rgba(227,0,27,.25), transparent 60%);
+  filter:blur(40px);pointer-events:none;
+}
+
+.hero-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.2fr .9fr;gap:56px;align-items:center;position:relative;z-index:1}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E8ECF4;
+}
+.hero-eyebrow .pulse{width:8px;height:8px;border-radius:100%;background:var(--red-500);box-shadow:0 0 0 0 rgba(227,0,27,.6);animation:pulse 2s infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(227,0,27,.6)}
+  70%{box-shadow:0 0 0 12px rgba(227,0,27,0)}
+  100%{box-shadow:0 0 0 0 rgba(227,0,27,0)}
+}
+
+.hero h1{
+  font-family:'Fraunces';font-weight:600;font-size:clamp(40px,6vw,76px);
+  line-height:1.02;letter-spacing:-0.025em;margin:18px 0 14px;
+}
+.hero h1 em{
+  font-style:italic;font-weight:400;color:#FFD99B;
+  position:relative;
+}
+.hero h1 em::after{
+  content:"";position:absolute;left:0;right:0;bottom:.08em;height:.12em;
+  background:linear-gradient(90deg,transparent,rgba(255,217,155,.7),transparent);
+}
+.hero p.lead{color:#C7D0E6;font-size:17px;line-height:1.55;max-width:52ch}
+
+.hero-search{
+  margin-top:28px;background:#fff;color:var(--ink-900);
+  border-radius:20px;padding:10px;display:flex;gap:8px;align-items:center;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.45), 0 10px 20px -10px rgba(0,0,0,.25);
+}
+.hero-search .field{flex:1;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:var(--mist)}
+.hero-search input{flex:1;border:0;background:transparent;outline:none;font-size:15px;font-weight:500;color:var(--ink-900)}
+.hero-search .chips{display:flex;gap:6px;padding:0 8px}
+.chip{font-size:12px;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--ink-700);font-weight:500}
+.chip.active{background:var(--navy-900);color:#fff;border-color:var(--navy-900)}
+.hero-search .go{padding:12px 18px;border-radius:14px;background:var(--red-500);color:#fff;font-weight:600;display:flex;align-items:center;gap:8px}
+
+.trending-row{margin-top:22px;display:flex;align-items:center;gap:14px;color:#C7D0E6;font-size:13px;flex-wrap:wrap}
+.trending-row .t{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:#fff;font-weight:500}
+.trending-row .t:hover{background:rgba(255,255,255,.1)}
+
+/* Hero right — floating stack */
+.hero-stack{position:relative;height:520px}
+.floaty{
+  position:absolute;background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);
+  border-radius:20px;padding:18px;color:#fff;box-shadow:var(--shadow-lg);
+}
+.card-prof{
+  top:10px;right:10px;width:320px;
+  background:linear-gradient(180deg,#fff, #FAF6EE);color:var(--ink-900);
+  border:1px solid rgba(255,255,255,.6);
+}
+.card-prof .pc-top{display:flex;align-items:center;gap:12px}
+.pc-avatar{
+  width:54px;height:54px;border-radius:100%;
+  background:conic-gradient(from 210deg, var(--navy-500), var(--red-500), var(--amber), var(--navy-500));
+  display:grid;place-items:center;position:relative;
+}
+.pc-avatar span{
+  width:46px;height:46px;border-radius:100%;background:#fff;
+  display:grid;place-items:center;font-weight:700;color:var(--navy-900);
+}
+.pc-name{font-weight:700}
+.pc-title{font-size:12px;color:var(--ink-500)}
+.pc-stars{display:flex;align-items:center;gap:4px;color:var(--amber);font-size:14px;margin-top:12px}
+.pc-stars b{color:var(--ink-900);font-weight:700;margin-left:4px}
+.pc-stars .small{color:var(--ink-500);font-weight:500;margin-left:6px}
+.pc-bars{margin-top:14px;display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--ink-500)}
+.pc-bar{display:flex;align-items:center;gap:8px}
+.pc-bar .label{width:70px}
+.pc-bar .track{flex:1;height:6px;border-radius:6px;background:var(--mist);overflow:hidden}
+.pc-bar .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--navy-500),var(--red-500))}
+.pc-tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{
+  font-size:11px;padding:4px 9px;border-radius:999px;
+  background:var(--navy-100);color:var(--navy-700);font-weight:600;letter-spacing:.01em;
+}
+.tag.red{background:var(--red-50);color:var(--red-500)}
+.tag.amber{background:#FFF3DB;color:#8A5A00}
+.tag.mint{background:#DCFCE7;color:#065F46}
+.tag.plum{background:#EDE9FE;color:#5B21B6}
+
+.card-course{
+  top:220px;left:-10px;width:260px;color:var(--ink-900);
+  background:linear-gradient(180deg,#FFFFFF, #F3ECDC);
+  border:1px solid #fff;
+}
+.cc-code{font-family:'Fraunces';font-weight:700;font-size:22px;color:var(--navy-900);letter-spacing:-0.01em}
+.cc-name{font-size:13px;color:var(--ink-700);line-height:1.4;margin-top:4px}
+.cc-stat{margin-top:14px;display:flex;align-items:center;gap:14px;font-size:12px;color:var(--ink-500)}
+.cc-stat b{color:var(--ink-900)}
+
+.card-quote{
+  bottom:0;right:40px;width:300px;color:#fff;
+  background:linear-gradient(180deg,rgba(227,0,27,.9), rgba(184,0,26,.9));
+  border:1px solid rgba(255,255,255,.18);
+}
+.card-quote .quoteglyph{font-family:'Fraunces';font-size:56px;line-height:.7;color:rgba(255,255,255,.35)}
+.card-quote p{font-size:14px;line-height:1.45;margin-top:6px}
+.card-quote .who{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:12px;color:rgba(255,255,255,.85)}
+.card-quote .who .dot{width:6px;height:6px;border-radius:100%;background:#fff}
+
+.hero-meta{
+  position:absolute;bottom:-18px;right:10%;display:flex;gap:16px;
+}
+.meta-pill{
+  background:rgba(255,255,255,.08);backdrop-filter:blur(8px);
+  padding:10px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.16);
+  color:#fff;font-size:12px;display:flex;align-items:center;gap:10px;
+}
+.meta-pill b{font-family:'Fraunces';font-weight:600;font-size:18px}
+
+/* ---------- Stat strip ---------- */
+.stat-strip{
+  max-width:1240px;margin:-36px auto 0;background:#fff;border:1px solid var(--line);
+  border-radius:24px;padding:22px;display:grid;grid-template-columns:repeat(4,1fr);
+  box-shadow:0 20px 40px -20px rgba(10,23,51,.2);
+  position:relative;z-index:2;
+}
+.stat-strip .item{padding:6px 20px;border-right:1px dashed var(--line)}
+.stat-strip .item:last-child{border:0}
+.stat-strip .val{font-family:'Fraunces';font-weight:600;font-size:34px;letter-spacing:-0.02em;color:var(--navy-900)}
+.stat-strip .val em{font-style:normal;color:var(--red-500)}
+.stat-strip .lab{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-500);font-weight:600}
+.stat-strip .trend{margin-top:6px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mint);font-weight:600}
+
+/* ---------- Section headers ---------- */
+.sec-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:28px;gap:24px;flex-wrap:wrap}
+.sec-eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--red-500);font-weight:700}
+.sec-title{font-family:'Fraunces';font-weight:600;font-size:clamp(28px,3.4vw,40px);letter-spacing:-0.02em;color:var(--navy-900);margin-top:8px;max-width:18ch;line-height:1.05}
+.sec-desc{color:var(--ink-500);max-width:48ch;font-size:15px;line-height:1.55;margin-top:10px}
+.sec-actions{display:flex;gap:10px}
+
+/* ---------- Filters (segmented) ---------- */
+.filter-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.segmented{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:var(--shadow-sm)}
+.segmented button{padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink-500)}
+.segmented button.active{background:var(--navy-900);color:#fff}
+.filter-pill{
+  display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
+  padding:8px 12px;border-radius:999px;font-size:13px;font-weight:500;color:var(--ink-700);
+}
+.filter-pill .caret{color:var(--ink-300)}
+.filter-pill.red{background:var(--red-50);color:var(--red-500);border-color:#FFD5DB}
+
+/* ---------- Professor featured grid ---------- */
+.prof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prof-card{
+  background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;
+  position:relative;overflow:hidden;transition:transform .2s, box-shadow .2s, border-color .2s;
+}
+.prof-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
+.prof-card .corner{
+  position:absolute;top:0;right:0;width:120px;height:120px;
+  background:radial-gradient(circle at top right, rgba(0,48,135,.08), transparent 60%);
+}
+.prof-head{display:flex;align-items:center;gap:14px}
+.prof-avatar{
+  width:56px;height:56px;border-radius:18px;
+  background:linear-gradient(135deg,var(--navy-500),var(--navy-700));
+  color:#fff;display:grid;place-items:center;font-weight:700;font-family:'Fraunces';font-size:18px;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.08);
+}
+.prof-avatar.v2{background:linear-gradient(135deg,#7C3AED,#3B1A6E)}
+.prof-avatar.v3{background:linear-gradient(135deg,var(--red-500),#7a0013)}
+.prof-avatar.v4{background:linear-gradient(135deg,var(--teal),#064E4E)}
+.prof-avatar.v5{background:linear-gradient(135deg,#F59E0B,#7B3F00)}
+.prof-avatar.v6{background:linear-gradient(135deg,var(--mint),#065F46)}
+.prof-head .who{flex:1;min-width:0}
+.prof-head .nm{font-weight:700;color:var(--ink-900)}
+.prof-head .ti{font-size:12px;color:var(--ink-500);margin-top:2px}
+.prof-head .rt{
+  display:flex;flex-direction:column;align-items:end;gap:2px;
+}
+.prof-head .rt b{font-family:'Fraunces';font-weight:700;font-size:22px;color:var(--navy-900);line-height:1}
+.prof-head .rt .s{font-size:11px;color:var(--ink-500)}
+.prof-card .line{height:1px;background:var(--line);margin:16px 0}
+.prof-card .courses-mini{display:flex;flex-wrap:wrap;gap:6px}
+.prof-card .meta{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:13px;color:var(--ink-500)}
+.prof-card .meta b{color:var(--navy-900);font-weight:700}
+.prof-card .arrow{
+  width:34px;height:34px;border-radius:100%;background:var(--cream-2);display:grid;place-items:center;color:var(--navy-900);
+  transition:background .15s;
+}
+.prof-card:hover .arrow{background:var(--red-500);color:#fff}
+
+/* "spark" bar */
+.spark{display:flex;align-items:end;gap:3px;height:28px}
+.spark i{display:block;width:6px;background:var(--navy-100);border-radius:2px}
+.spark i.hi{background:var(--navy-500)}
+.spark i.red{background:var(--red-500)}
+
+/* ---------- Department explorer ---------- */
+.dept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.dept-card{
+  position:relative;border-radius:22px;padding:22px;color:#fff;overflow:hidden;min-height:170px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  transition:transform .2s;
+}
+.dept-card:hover{transform:translateY(-3px)}
+.dept-card .code{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.14em;opacity:.8}
+.dept-card .name{font-family:'Fraunces';font-size:22px;font-weight:600;line-height:1.1;margin-top:6px}
+.dept-card .n{font-size:13px;opacity:.85}
+.dept-card .glyph{
+  position:absolute;right:-10px;bottom:-10px;font-family:'Fraunces';font-size:120px;font-weight:300;opacity:.15;line-height:1;
+}
+.dept-fens{background:linear-gradient(135deg,#14296A,#0A1733)}
+.dept-fass{background:linear-gradient(135deg,#7C3AED,#3B1A6E)}
+.dept-sbs{background:linear-gradient(135deg,#E3001B,#7a0013)}
+.dept-sl{background:linear-gradient(135deg,#0EA5A6,#064E4E)}
+
+/* ---------- Reviews wall ---------- */
+.review-wall{columns:3;column-gap:20px}
+.review-card{
+  break-inside:avoid;display:block;background:#fff;border:1px solid var(--line);
+  border-radius:20px;padding:20px;margin-bottom:20px;position:relative;
+}
+.review-card .rc-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rc-av{width:38px;height:38px;border-radius:100%;background:var(--navy-100);color:var(--navy-900);display:grid;place-items:center;font-weight:700;font-size:13px}
+.rc-info{flex:1;font-size:13px}
+.rc-info b{color:var(--ink-900)}
+.rc-info span{display:block;color:var(--ink-500);font-size:12px}
+.rc-rate{display:flex;align-items:center;gap:4px;color:var(--amber);font-size:12px}
+.rc-rate b{color:var(--ink-900)}
+.rc-quote{font-family:'Fraunces';font-size:17px;line-height:1.4;color:var(--ink-900);font-weight:500;letter-spacing:-0.01em}
+.rc-course{margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-500)}
+.rc-course b{color:var(--navy-900);font-family:'JetBrains Mono';font-size:12px}
+.rc-meta{display:flex;gap:14px;margin-top:14px;color:var(--ink-500);font-size:12px}
+.rc-meta span{display:inline-flex;align-items:center;gap:4px}
+.rc-tall{background:linear-gradient(180deg,#14296A,#0A1733);color:#fff;border-color:transparent}
+.rc-tall .rc-info b, .rc-tall .rc-info span{color:#fff}
+.rc-tall .rc-info span{color:rgba(255,255,255,.6)}
+.rc-tall .rc-quote{color:#fff}
+.rc-tall .rc-av{background:rgba(255,255,255,.1);color:#fff}
+.rc-tall .rc-course b{color:#FFD99B}
+.rc-tall .rc-meta{color:rgba(255,255,255,.7)}
+
+/* ---------- Prof detail mock ---------- */
+.sheet{max-width:1240px;margin:0 auto;background:#fff;border-radius:28px;border:1px solid var(--line);overflow:hidden;box-shadow:0 40px 80px -40px rgba(10,23,51,.25)}
+.sheet-head{
+  padding:36px 36px 32px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(900px 300px at 80% -20%, rgba(227,0,27,.18), transparent 60%),
+    radial-gradient(700px 400px at -10% 50%, rgba(0,48,135,.25), transparent 60%),
+    linear-gradient(180deg,#fff,#FAF6EE);
+  border-bottom:1px solid var(--line);
+}
+.sheet-head .crumbs{display:flex;gap:6px;font-size:12px;color:var(--ink-500);margin-bottom:14px}
+.sheet-head .crumbs a{color:var(--navy-900)}
+.sheet-top{display:flex;align-items:flex-start;gap:24px}
+.big-avatar{
+  width:120px;height:120px;border-radius:30px;
+  background:conic-gradient(from 200deg, var(--navy-500),var(--red-500),var(--amber),var(--navy-500));
+  padding:4px;display:grid;place-items:center;position:relative;flex-shrink:0;
+}
+.big-avatar .inner{
+  width:100%;height:100%;border-radius:26px;background:#fff;color:var(--navy-900);
+  display:grid;place-items:center;font-family:'Fraunces';font-weight:700;font-size:44px;
+}
+.big-avatar .pin{
+  position:absolute;bottom:-8px;right:-8px;background:var(--red-500);color:#fff;
+  padding:6px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;
+  box-shadow:0 8px 16px -6px rgba(227,0,27,.5);
+}
+.sheet-who{flex:1;min-width:0}
+.sheet-title{font-family:'Fraunces';font-size:42px;font-weight:600;letter-spacing:-0.02em;color:var(--navy-900);line-height:1}
+.sheet-sub{color:var(--navy-500);font-weight:600;margin-top:6px}
+.sheet-muted{color:var(--ink-500);font-size:13px;margin-top:4px}
+.sheet-tags{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+
+.sheet-rt{
+  display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 20px;
+  background:#fff;border:1px solid var(--line);border-radius:22px;min-width:180px;
+  box-shadow:var(--shadow-sm);
+}
+.sheet-rt .big{font-family:'Fraunces';font-size:54px;font-weight:700;color:var(--navy-900);line-height:1}
+.sheet-rt .stars{color:var(--amber);font-size:18px;letter-spacing:2px}
+.sheet-rt .n{font-size:12px;color:var(--ink-500)}
+
+.stat-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px}
+.sbar{display:flex;flex-direction:column;gap:6px}
+.sbar .lab{font-size:12px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.sbar .val{font-family:'Fraunces';font-size:22px;font-weight:600;color:var(--navy-900)}
+.sbar .track{height:6px;border-radius:6px;background:var(--mist);overflow:hidden}
+.sbar .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--navy-500),var(--red-500))}
+.sbar .fill.mint{background:linear-gradient(90deg,var(--mint),#065F46)}
+
+.sheet-body{display:grid;grid-template-columns:260px 1fr;gap:0}
+.sheet-side{padding:28px;border-right:1px solid var(--line);background:var(--cream)}
+.side-title{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-500);font-weight:700;margin-bottom:12px}
+.course-list .crow{
+  display:flex;gap:10px;padding:10px;border-radius:12px;border:1px solid transparent;
+  transition:background .15s,border-color .15s;
+}
+.course-list .crow:hover{background:#fff;border-color:var(--line)}
+.crow .cc{font-family:'JetBrains Mono';font-weight:600;color:var(--navy-500);font-size:13px;width:70px}
+.crow .nm{font-size:13px;color:var(--ink-900)}
+.crow .sem{font-size:11px;color:var(--ink-500);margin-top:2px}
+
+.sheet-main{padding:28px 32px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.tabs button{padding:10px 14px;font-size:14px;font-weight:600;color:var(--ink-500);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button.active{color:var(--navy-900);border-bottom-color:var(--red-500)}
+
+.review-item{display:flex;gap:14px;padding:18px 0;border-bottom:1px dashed var(--line)}
+.review-item:last-child{border:0}
+.review-item .av{width:42px;height:42px;border-radius:14px;flex-shrink:0;background:var(--navy-100);color:var(--navy-900);display:grid;place-items:center;font-weight:700}
+.review-item .body{flex:1}
+.review-item .head{display:flex;justify-content:space-between;align-items:center}
+.review-item .nm{font-weight:700;color:var(--ink-900);font-size:14px}
+.review-item .sem{font-size:12px;color:var(--ink-500)}
+.review-item .stars{color:var(--amber);font-size:13px}
+.review-item .txt{margin-top:8px;color:var(--ink-700);font-size:14px;line-height:1.55}
+.review-item .foot{display:flex;gap:14px;margin-top:10px;color:var(--ink-500);font-size:12px}
+.review-item .foot b{color:var(--navy-900)}
+.review-item .btns{display:flex;gap:8px}
+.react{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--ink-700)}
+.react.up{background:var(--mist)}
+
+/* ---------- Courses page mock ---------- */
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.course-card{
+  background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;
+  position:relative;overflow:hidden;transition:transform .2s, box-shadow .2s;
+}
+.course-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.cc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cc-badge{
+  font-family:'JetBrains Mono';font-size:12px;font-weight:700;letter-spacing:.04em;
+  padding:6px 10px;border-radius:999px;color:#fff;
+}
+.cc-badge.fens{background:var(--navy-500)}
+.cc-badge.fass{background:var(--plum)}
+.cc-badge.sbs{background:var(--red-500)}
+.cc-badge.sl{background:var(--teal)}
+.cc-code-big{font-family:'Fraunces';font-size:26px;font-weight:700;color:var(--ink-900);letter-spacing:-0.02em}
+.cc-title{font-size:14px;color:var(--ink-700);line-height:1.4;margin-top:2px}
+.cc-row{display:flex;align-items:center;justify-content:space-between;margin-top:18px;font-size:12px;color:var(--ink-500)}
+.cc-row .who{display:flex;align-items:center;gap:8px;color:var(--ink-700)}
+.cc-who-av{width:22px;height:22px;border-radius:100%;background:var(--navy-500);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:700}
+.cc-difficulty{display:flex;align-items:center;gap:4px}
+.diff-dot{width:6px;height:6px;border-radius:100%;background:var(--mist)}
+.diff-dot.on{background:var(--red-500)}
+
+/* ---------- CTA band ---------- */
+.cta{
+  margin:64px auto 40px;max-width:1240px;border-radius:36px;overflow:hidden;position:relative;
+  background:
+    radial-gradient(600px 300px at 90% 20%, rgba(227,0,27,.22), transparent 60%),
+    linear-gradient(135deg,#14296A 0%, #0A1733 100%);
+  color:#fff;padding:56px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;
+}
+.cta::before{
+  content:"";position:absolute;inset:0;opacity:.07;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.cta h3{font-family:'Fraunces';font-weight:600;font-size:clamp(28px,3vw,42px);line-height:1.05;letter-spacing:-0.02em}
+.cta h3 em{color:#FFD99B;font-style:italic}
+.cta p{color:#C7D0E6;margin-top:14px;font-size:15px;line-height:1.55;max-width:48ch}
+.cta .btns{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.cta .visual{
+  position:relative;height:260px;
+}
+.cta-note{
+  position:absolute;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+  border-radius:18px;padding:14px;color:#fff;font-size:13px;backdrop-filter:blur(8px);
+}
+.cta-note.n1{top:10px;left:0;right:30%}
+.cta-note.n2{top:120px;left:20%;right:0;background:var(--red-500);border-color:transparent}
+.cta-note.n3{bottom:0;left:10%;right:40%;background:#fff;color:var(--ink-900);border-color:#fff}
+.cta-note .s{display:flex;gap:4px;color:var(--amber);margin-bottom:6px}
+.cta-note.n3 .s{color:var(--amber)}
+
+/* ---------- Footer ---------- */
+footer.ft{
+  background:linear-gradient(180deg,#0A1733,#05091A);color:#C7D0E6;padding:56px 24px 30px;
+  border-top-left-radius:36px;border-top-right-radius:36px;
+}
+.ft-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.3fr .7fr .7fr .7fr .7fr;gap:40px}
+.ft h4{font-family:'Fraunces';color:#fff;font-weight:600;font-size:20px;margin-bottom:10px}
+.ft a{display:block;padding:4px 0;font-size:14px;color:#C7D0E6}
+.ft a:hover{color:#fff}
+.ft .brand-desc{margin-top:12px;font-size:14px;line-height:1.6;color:#94A3B8;max-width:40ch}
+.ft .tit{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#94A3B8;margin-bottom:10px}
+.ft-bottom{max-width:1240px;margin:30px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;color:#94A3B8;font-size:13px}
+
+/* ---------- View switcher (for mockup navigation) ---------- */
+.view-switcher{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;
+  background:#0B1220;border:1px solid rgba(255,255,255,.12);padding:6px;border-radius:999px;
+  display:flex;gap:4px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+}
+.view-switcher button{
+  padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;color:#94A3B8;
+}
+.view-switcher button:hover{color:#fff}
+.view-switcher button.active{background:#fff;color:var(--navy-900)}
+
+.view{display:none;padding-bottom:40px}
+.view.active{display:block;animation:fadein .35s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---------- Icons ---------- */
+.ic{width:16px;height:16px;display:inline-block;vertical-align:-2px}
+.ic-sm{width:14px;height:14px;vertical-align:-2px}
+
+/* ---------- Section dividers ---------- */
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:40px 0}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1020px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-stack{display:none}
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+  .stat-strip .item:nth-child(2){border-right:0}
+  .prof-grid{grid-template-columns:repeat(2,1fr)}
+  .course-grid{grid-template-columns:repeat(2,1fr)}
+  .dept-grid{grid-template-columns:repeat(2,1fr)}
+  .review-wall{columns:2}
+  .sheet-body{grid-template-columns:1fr}
+  .sheet-side{border-right:0;border-bottom:1px solid var(--line)}
+  .cta{grid-template-columns:1fr;padding:36px}
+  .cta .visual{display:none}
+  .ft-inner{grid-template-columns:1fr 1fr}
+  .nav-links, .search-pill{display:none}
+}
+@media (max-width: 620px){
+  .prof-grid,.course-grid,.dept-grid{grid-template-columns:1fr}
+  .review-wall{columns:1}
+  .stat-strip{grid-template-columns:1fr 1fr}
+  .stat-bars{grid-template-columns:1fr 1fr}
+  .sheet-top{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- Top ribbon -->
+<div class="ribbon">
+  <span><b>SU</b> Ders Forumu · <b>Bahar 2026</b> dönem yorumları açık</span>
+  <span class="dot"></span>
+  <span>2,431 yeni yorum bu ay · <b>⌘K</b> ile ara</span>
+</div>
+
+<!-- Navbar -->
+<div class="nav-wrap">
+  <nav class="nav">
+    <a href="#" class="logo" aria-label="Ders Forumu">
+      <span class="logo-mark"><span>D</span></span>
+      <span>
+        <span class="name">Ders Forumu</span>
+        <span class="kicker">Sabancı Üniversitesi</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" href="#" data-v="home">Keşfet</a>
+      <a class="nav-link" href="#" data-v="prof">Hocalar</a>
+      <a class="nav-link" href="#" data-v="course">Dersler</a>
+      <a class="nav-link" href="#">Topluluk</a>
+      <a class="nav-link" href="#">Rehber</a>
+    </div>
+    <div class="nav-right">
+      <div class="search-pill">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Ders kodu, hoca adı veya anahtar kelime…
+        <kbd>⌘K</kbd>
+      </div>
+      <button class="btn btn-red">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+        Yorum Yaz
+      </button>
+      <div class="avatar" title="KIZIL">AK</div>
+    </div>
+  </nav>
+</div>
+
+<!-- =========================================== -->
+<!-- VIEW 1 — HOME / DISCOVER                    -->
+<!-- =========================================== -->
+<div class="view active" id="v-home">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-eyebrow"><span class="pulse"></span> Canlı · Bahar 2026 dönemi</span>
+      <h1 class="serif">Bir dersi almadan önce,<br/><em>gerçek deneyimleri</em> oku.</h1>
+      <p class="lead">Sabancı Üniversitesi öğrencilerinin hocalar, dersler ve program yükü hakkında paylaştığı kaliteli yorumlar — tek yerde, şeffaf, anonim ve doğrulanmış.</p>
+
+      <div class="hero-search">
+        <div class="field">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input placeholder="Örn. CS 204, Kemal Kılıç, termodinamik…" value="" />
+        </div>
+        <div class="chips">
+          <span class="chip active">Tümü</span>
+          <span class="chip">Hoca</span>
+          <span class="chip">Ders</span>
+        </div>
+        <button class="go">Ara
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="trending-row">
+        <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8">Popüler aramalar</span>
+        <a class="t">CS 204</a>
+        <a class="t">MATH 102</a>
+        <a class="t">SPS 101</a>
+        <a class="t">Erkay Savaş</a>
+        <a class="t">VA 101</a>
+      </div>
+    </div>
+
+    <div class="hero-stack">
+      <!-- Floating professor card -->
+      <div class="floaty card-prof">
+        <div class="pc-top">
+          <div class="pc-avatar"><span>KK</span></div>
+          <div>
+            <div class="pc-name">Prof. Kemal Kılıç</div>
+            <div class="pc-title">Endüstri Mühendisliği · FENS</div>
+          </div>
+        </div>
+        <div class="pc-stars">
+          ★★★★★ <b>4.8</b><span class="small">· 214 yorum</span>
+        </div>
+        <div class="pc-bars">
+          <div class="pc-bar"><span class="label">Anlatım</span><span class="track"><span class="fill" style="width:92%"></span></span><b>9.2</b></div>
+          <div class="pc-bar"><span class="label">Erişilebilir</span><span class="track"><span class="fill" style="width:86%"></span></span><b>8.6</b></div>
+          <div class="pc-bar"><span class="label">Adillik</span><span class="track"><span class="fill" style="width:90%"></span></span><b>9.0</b></div>
+        </div>
+        <div class="pc-tags">
+          <span class="tag">IE 303</span><span class="tag">IE 306</span>
+          <span class="tag amber">Challenging</span>
+          <span class="tag mint">Would recommend</span>
+        </div>
+      </div>
+
+      <!-- Floating course card -->
+      <div class="floaty card-course">
+        <span class="tag red" style="margin-bottom:10px;display:inline-block">Trending bu hafta</span>
+        <div class="cc-code">CS 204</div>
+        <div class="cc-name">Advanced Programming — Data structures & object oriented design</div>
+        <div class="cc-stat">
+          <span>★ <b>4.6</b></span>
+          <span>· 86 yorum</span>
+          <span>· <b>3</b> hoca</span>
+        </div>
+      </div>
+
+      <!-- Quote card -->
+      <div class="floaty card-quote">
+        <div class="quoteglyph">“</div>
+        <p>"Ödevler zor ama geri dönüşleri o kadar hızlı ve detaylı ki, öğrenmek için en iyi ders olmuş benim için."</p>
+        <div class="who"><span class="dot"></span> Anon · Bilgisayar Müh. · 4. sınıf</div>
+      </div>
+    </div>
+
+    <!-- meta pills -->
+    <div class="hero-meta">
+      <div class="meta-pill"><b>✧</b> 100% anonim</div>
+      <div class="meta-pill"><b>✓</b> SU e-posta doğrulamalı</div>
+      <div class="meta-pill"><b>⚡</b> Her dönem güncellenir</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stat strip -->
+<div class="stat-strip">
+  <div class="item">
+    <div class="lab">Hocalar</div>
+    <div class="val">342</div>
+    <div class="trend">▲ 12 bu dönem</div>
+  </div>
+  <div class="item">
+    <div class="lab">Dersler</div>
+    <div class="val">1,186</div>
+    <div class="trend">▲ 48 yeni</div>
+  </div>
+  <div class="item">
+    <div class="lab">Yorumlar</div>
+    <div class="val"><em>24,3k</em></div>
+    <div class="trend">▲ %22 YoY</div>
+  </div>
+  <div class="item">
+    <div class="lab">Aktif Öğrenci</div>
+    <div class="val">6,540</div>
+    <div class="trend">▲ 431 bu ay</div>
+  </div>
+</div>
+
+<!-- Featured professors -->
+<section class="container" style="padding-top:64px">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">★ En iyi puanlı</div>
+      <h2 class="sec-title serif">Öğrencilerin gönülden önerdiği hocalar.</h2>
+      <p class="sec-desc">Son 12 ayda en az 30 yorum alan ve 4.5 üzerinde puana sahip hocalar.</p>
+    </div>
+    <div class="filter-bar">
+      <div class="segmented">
+        <button class="active">Dönem</button>
+        <button>Yıl</button>
+        <button>Tüm zamanlar</button>
+      </div>
+      <div class="filter-pill">Fakülte: FENS <span class="caret">▾</span></div>
+      <div class="filter-pill">Sırala: Puan <span class="caret">▾</span></div>
+    </div>
+  </div>
+
+  <div class="prof-grid">
+    <!-- Card 1 -->
+    <a class="prof-card" href="#" onclick="switchView('prof');return false;">
+      <div class="corner"></div>
+      <div class="prof-head">
+        <div class="prof-avatar">KK</div>
+        <div class="who">
+          <div class="nm">Kemal Kılıç</div>
+          <div class="ti">Prof. · Endüstri Müh.</div>
+        </div>
+        <div class="rt"><b>4.8</b><span class="s">214 yorum</span></div>
+      </div>
+      <div class="line"></div>
+      <div class="spark">
+        <i style="height:30%"></i><i style="height:45%"></i><i style="height:52%" class="hi"></i>
+        <i style="height:60%" class="hi"></i><i style="height:70%" class="hi"></i>
+        <i style="height:80%" class="hi"></i><i style="height:92%" class="red"></i>
+        <i style="height:88%" class="hi"></i><i style="height:94%" class="red"></i>
+        <i style="height:80%" class="hi"></i><i style="height:82%" class="hi"></i>
+        <i style="height:68%" class="hi"></i>
+      </div>
+      <div class="courses-mini" style="margin-top:14px">
+        <span class="tag">IE 303</span><span class="tag">IE 306</span>
+        <span class="tag mint">Adil</span><span class="tag amber">Challenging</span>
+      </div>
+      <div class="meta">
+        <span>Anlatım <b>9.2</b> · Adillik <b>9.0</b></span>
+        <div class="arrow">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+    <a class="prof-card" href="#">
+      <div class="corner"></div>
+      <div class="prof-head">
+        <div class="prof-avatar v2">ES</div>
+        <div class="who">
+          <div class="nm">Erkay Savaş</div>
+          <div class="ti">Prof. · Bilgisayar Müh.</div>
+        </div>
+        <div class="rt"><b>4.7</b><span class="s">182 yorum</span></div>
+      </div>
+      <div class="line"></div>
+      <div class="spark">
+        <i style="height:40%" class="hi"></i><i style="height:55%" class="hi"></i>
+        <i style="height:62%" class="hi"></i><i style="height:78%" class="hi"></i>
+        <i style="height:82%" class="red"></i><i style="height:76%" class="hi"></i>
+        <i style="height:92%" class="red"></i><i style="height:88%" class="hi"></i>
+        <i style="height:72%" class="hi"></i><i style="height:80%" class="hi"></i>
+        <i style="height:70%" class="hi"></i><i style="height:65%" class="hi"></i>
+      </div>
+      <div class="courses-mini" style="margin-top:14px">
+        <span class="tag">CS 401</span><span class="tag">CS 527</span>
+        <span class="tag plum">Graduate</span><span class="tag mint">Proje odaklı</span>
+      </div>
+      <div class="meta">
+        <span>Anlatım <b>9.0</b> · Zorluk <b>8.4</b></span>
+        <div class="arrow">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 3 -->
+    <a class="prof-card" href="#">
+      <div class="corner"></div>
+      <div class="prof-head">
+        <div class="prof-avatar v3">AD</div>
+        <div class="who">
+          <div class="nm">Ayşe Demir</div>
+          <div class="ti">Doç. · Uluslararası İlişkiler</div>
+        </div>
+        <div class="rt"><b>4.9</b><span class="s">96 yorum</span></div>
+      </div>
+      <div class="line"></div>
+      <div class="spark">
+        <i style="height:55%" class="hi"></i><i style="height:70%" class="hi"></i>
+        <i style="height:80%" class="hi"></i><i style="height:88%" class="red"></i>
+        <i style="height:95%" class="red"></i><i style="height:92%" class="red"></i>
+        <i style="height:98%" class="red"></i><i style="height:90%" class="red"></i>
+        <i style="height:88%" class="hi"></i><i style="height:82%" class="hi"></i>
+        <i style="height:85%" class="hi"></i><i style="height:78%" class="hi"></i>
+      </div>
+      <div class="courses-mini" style="margin-top:14px">
+        <span class="tag">POLS 210</span><span class="tag">IR 301</span>
+        <span class="tag amber">Tartışma odaklı</span><span class="tag mint">İlham verici</span>
+      </div>
+      <div class="meta">
+        <span>Anlatım <b>9.6</b> · Empati <b>9.8</b></span>
+        <div class="arrow">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 4 -->
+    <a class="prof-card" href="#">
+      <div class="corner"></div>
+      <div class="prof-head">
+        <div class="prof-avatar v4">MY</div>
+        <div class="who">
+          <div class="nm">Mehmet Yıldız</div>
+          <div class="ti">Prof. · Malzeme Bilimi</div>
+        </div>
+        <div class="rt"><b>4.6</b><span class="s">154 yorum</span></div>
+      </div>
+      <div class="line"></div>
+      <div class="spark">
+        <i style="height:35%" class="hi"></i><i style="height:50%" class="hi"></i>
+        <i style="height:62%" class="hi"></i><i style="height:68%" class="hi"></i>
+        <i style="height:75%" class="hi"></i><i style="height:82%" class="hi"></i>
+        <i style="height:88%" class="red"></i><i style="height:80%" class="hi"></i>
+        <i style="height:78%" class="hi"></i><i style="height:72%" class="hi"></i>
+        <i style="height:66%" class="hi"></i><i style="height:62%" class="hi"></i>
+      </div>
+      <div class="courses-mini" style="margin-top:14px">
+        <span class="tag">MAT 201</span><span class="tag">MAT 303</span>
+        <span class="tag mint">Laboratuvar zengin</span>
+      </div>
+      <div class="meta">
+        <span>Anlatım <b>8.8</b> · Ödev <b>7.2</b></span>
+        <div class="arrow">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 5 -->
+    <a class="prof-card" href="#">
+      <div class="corner"></div>
+      <div class="prof-head">
+        <div class="prof-avatar v5">SÖ</div>
+        <div class="who">
+          <div class="nm">Selin Öztürk</div>
+          <div class="ti">Dr. Öğr. Üyesi · Görsel Sanatlar</div>
+        </div>
+        <div class="rt"><b>4.9</b><span class="s">71 yorum</span></div>
+      </div>
+      <div class="line"></div>
+      <div class="spark">
+        <i style="height:62%" class="hi"></i><i style="height:78%" class="hi"></i>
+        <i style="height:85%" class="red"></i><i style="height:90%" class="red"></i>
+        <i style="height:96%" class="red"></i><i style="height:92%" class="red"></i>
+        <i style="height:88%" class="red"></i><i style="height:94%" class="red"></i>
+        <i style="height:86%" class="hi"></i><i style="height:80%" class="hi"></i>
+        <i style="height:78%" class="hi"></i><i style="height:72%" class="hi"></i>
+      </div>
+      <div class="courses-mini" style="margin-top:14px">
+        <span class="tag">VA 101</span><span class="tag">VA 203</span>
+        <span class="tag plum">Yaratıcı</span><span class="tag mint">Portfolio</span>
+      </div>
+      <div class="meta">
+        <span>Anlatım <b>9.4</b> · Yaratıcılık <b>9.8</b></span>
+        <div class="arrow">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 6 -->
+    <a class="prof-card" href="#">
+      <div class="corner"></div>
+      <div class="prof-head">
+        <div class="prof-avatar v6">CA</div>
+        <div class="who">
+          <div class="nm">Can Akın</div>
+          <div class="ti">Prof. · Yönetim Bilimleri</div>
+        </div>
+        <div class="rt"><b>4.5</b><span class="s">203 yorum</span></div>
+      </div>
+      <div class="line"></div>
+      <div class="spark">
+        <i style="height:48%" class="hi"></i><i style="height:56%" class="hi"></i>
+        <i style="height:62%" class="hi"></i><i style="height:68%" class="hi"></i>
+        <i style="height:75%" class="hi"></i><i style="height:80%" class="hi"></i>
+        <i style="height:86%" class="red"></i><i style="height:82%" class="hi"></i>
+        <i style="height:76%" class="hi"></i><i style="height:72%" class="hi"></i>
+        <i style="height:68%" class="hi"></i><i style="height:62%" class="hi"></i>
+      </div>
+      <div class="courses-mini" style="margin-top:14px">
+        <span class="tag">MGMT 403</span><span class="tag">MGMT 301</span>
+        <span class="tag amber">Case-based</span>
+      </div>
+      <div class="meta">
+        <span>Anlatım <b>8.8</b> · Adillik <b>9.0</b></span>
+        <div class="arrow">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="rule container"></div>
+
+<!-- Department explorer -->
+<section class="container">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">◎ Fakülte rehberi</div>
+      <h2 class="sec-title serif">Fakülteni seç, doğru yolu bul.</h2>
+      <p class="sec-desc">Her fakülte için üst puanlı dersler, öğrenci profili ve kariyer çıktıları tek sayfada.</p>
+    </div>
+  </div>
+
+  <div class="dept-grid">
+    <a class="dept-card dept-fens" href="#">
+      <div>
+        <div class="code">FENS · Mühendislik ve Doğa Bil.</div>
+        <div class="name">Faculty of Engineering & Natural Sciences</div>
+      </div>
+      <div class="n">238 ders · 124 hoca · 4.3 ort.</div>
+      <div class="glyph serif">F</div>
+    </a>
+    <a class="dept-card dept-fass" href="#">
+      <div>
+        <div class="code">FASS · Sanat ve Sosyal Bil.</div>
+        <div class="name">Faculty of Arts & Social Sciences</div>
+      </div>
+      <div class="n">184 ders · 96 hoca · 4.5 ort.</div>
+      <div class="glyph serif">A</div>
+    </a>
+    <a class="dept-card dept-sbs" href="#">
+      <div>
+        <div class="code">SBS · Yönetim Bil.</div>
+        <div class="name">School of Management</div>
+      </div>
+      <div class="n">126 ders · 62 hoca · 4.2 ort.</div>
+      <div class="glyph serif">M</div>
+    </a>
+    <a class="dept-card dept-sl" href="#">
+      <div>
+        <div class="code">SL · Dil Okulu</div>
+        <div class="name">School of Languages</div>
+      </div>
+      <div class="n">58 ders · 40 hoca · 4.4 ort.</div>
+      <div class="glyph serif">L</div>
+    </a>
+  </div>
+</section>
+
+<div class="rule container"></div>
+
+<!-- Latest reviews -->
+<section class="container">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">✎ Topluluk</div>
+      <h2 class="sec-title serif">En son yorumlar.</h2>
+      <p class="sec-desc">Doğrulanmış SU öğrencilerinden anonim ve dürüst paylaşımlar.</p>
+    </div>
+    <div class="filter-bar">
+      <div class="segmented">
+        <button class="active">En yeni</button>
+        <button>En faydalı</button>
+        <button>Tartışmalı</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-wall">
+    <div class="review-card">
+      <div class="rc-head">
+        <div class="rc-av">B*</div>
+        <div class="rc-info"><b>Anon · Bilgisayar Müh.</b><span>2 saat önce · Bahar 2026</span></div>
+        <div class="rc-rate">★★★★★ <b>5.0</b></div>
+      </div>
+      <p class="rc-quote">"Ödevler zor ama geri dönüşler o kadar hızlı ve detaylı ki, öğrenmek için en iyi ders olmuş benim için."</p>
+      <div class="rc-course"><b>CS 204</b> · Prof. Erkay Savaş</div>
+      <div class="rc-meta">
+        <span>👍 124 faydalı</span>
+        <span>💬 18 yorum</span>
+        <span>✓ doğrulandı</span>
+      </div>
+    </div>
+
+    <div class="review-card rc-tall">
+      <div class="rc-head">
+        <div class="rc-av">M*</div>
+        <div class="rc-info"><b>Anon · Endüstri Müh.</b><span>1 gün önce · Güz 2025</span></div>
+        <div class="rc-rate">★★★★★ <b>4.8</b></div>
+      </div>
+      <p class="rc-quote">"Hayatımda aldığım en keyifli ders. Prof. Kılıç derse hiç hazırlıksız gelmiyor, her örnek cebinden çıkmış gibi."</p>
+      <div class="rc-course"><b>IE 303</b> · Prof. Kemal Kılıç</div>
+      <div class="rc-meta">
+        <span>👍 312 faydalı</span>
+        <span>💬 42 yorum</span>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="rc-head">
+        <div class="rc-av">Y*</div>
+        <div class="rc-info"><b>Anon · İşletme</b><span>3 gün önce · Bahar 2026</span></div>
+        <div class="rc-rate">★★★★ <b>4.0</b></div>
+      </div>
+      <p class="rc-quote">"Ödev yükü orta ama sınıfta gerçekten tartışma olan nadir derslerden. Vize klasik yaptı, final case."</p>
+      <div class="rc-course"><b>MGMT 301</b> · Prof. Can Akın</div>
+      <div class="rc-meta">
+        <span>👍 87 faydalı</span>
+        <span>💬 12 yorum</span>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="rc-head">
+        <div class="rc-av">E*</div>
+        <div class="rc-info"><b>Anon · Fizik</b><span>5 gün önce · Güz 2025</span></div>
+        <div class="rc-rate">★★★★★ <b>4.9</b></div>
+      </div>
+      <p class="rc-quote">"Ders planı her hafta güncelleniyor. Konu anlatımı çok net, sorular dersin ruhunu yansıtıyor — yani ezber yok."</p>
+      <div class="rc-course"><b>PHYS 301</b> · Prof. Ali Kaya</div>
+      <div class="rc-meta">
+        <span>👍 91 faydalı</span>
+        <span>💬 9 yorum</span>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="rc-head">
+        <div class="rc-av">V*</div>
+        <div class="rc-info"><b>Anon · Görsel Sanatlar</b><span>bu hafta · Bahar 2026</span></div>
+        <div class="rc-rate">★★★★★ <b>5.0</b></div>
+      </div>
+      <p class="rc-quote">"Selin hoca gerçek anlamda ders anlatmıyor — seni dinliyor, sorular soruyor, sonra işin bir kat derinleşmiş oluyor."</p>
+      <div class="rc-course"><b>VA 101</b> · Dr. Selin Öztürk</div>
+      <div class="rc-meta">
+        <span>👍 156 faydalı</span>
+        <span>💬 24 yorum</span>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="rc-head">
+        <div class="rc-av">A*</div>
+        <div class="rc-info"><b>Anon · Uluslararası İl.</b><span>bu ay · Bahar 2026</span></div>
+        <div class="rc-rate">★★★★ <b>4.2</b></div>
+      </div>
+      <p class="rc-quote">"Okuma listesi yoğun, ama dersler atölye gibi geçiyor. Her hafta kısa bir yazı hazırlamak konsantrasyonu zorluyor."</p>
+      <div class="rc-course"><b>IR 301</b> · Doç. Ayşe Demir</div>
+      <div class="rc-meta">
+        <span>👍 64 faydalı</span>
+        <span>💬 7 yorum</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding-top:10px">
+  <div class="cta">
+    <div>
+      <span class="hero-eyebrow"><span class="pulse"></span> topluluk güçlüdür</span>
+      <h3 class="serif">Bir dakikanı ayır, <em>başkasının dönemini</em> kurtar.</h3>
+      <p>Aldığın derslerden birini 90 saniyede değerlendir. Yorumun anonim kalır, yalnızca SU e-postasıyla doğrulanan kullanıcılar yorum yazabilir.</p>
+      <div class="btns">
+        <button class="btn btn-red">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          Yorum Yaz
+        </button>
+        <button class="btn btn-ghost" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18)">
+          Rehberi Oku
+        </button>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="cta-note n1">
+        <div class="s">★★★★★</div>
+        <b>CS 204</b> için yorumun paylaşıldı — 23 öğrenci faydalı buldu.
+      </div>
+      <div class="cta-note n2">
+        <div class="s" style="color:#fff">★★★★★</div>
+        <div>Yeni rozet: <b>Erken Yorumcu</b> · Bahar 2026 🏅</div>
+      </div>
+      <div class="cta-note n3">
+        <div class="s">★★★★</div>
+        <b>MATH 102</b> · "Problem setleri zor ama adil. Hoca kesinlikle önerilir."
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /v-home -->
+
+<!-- =========================================== -->
+<!-- VIEW 2 — PROFESSOR DETAIL                   -->
+<!-- =========================================== -->
+<div class="view" id="v-prof">
+  <section style="padding-top:32px">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="crumbs">
+        <a>Keşfet</a><span>/</span><a>Hocalar</a><span>/</span><a>FENS</a><span>/</span><span style="color:var(--ink-900);font-weight:600">Kemal Kılıç</span>
+      </div>
+      <div class="sheet-top">
+        <div class="big-avatar">
+          <div class="inner">KK</div>
+          <div class="pin">TOP 1% · FENS</div>
+        </div>
+        <div class="sheet-who">
+          <div class="sheet-title">Prof. Dr. Kemal Kılıç</div>
+          <div class="sheet-sub">Endüstri Mühendisliği</div>
+          <div class="sheet-muted">Faculty of Engineering & Natural Sciences · Sabancı Üniversitesi · Ofis: FENS G041</div>
+          <div class="sheet-tags">
+            <span class="tag">IE 303</span><span class="tag">IE 306</span><span class="tag">IE 413</span>
+            <span class="tag mint">Adil</span><span class="tag amber">Challenging</span>
+            <span class="tag plum">Araştırma odaklı</span>
+          </div>
+        </div>
+        <div class="sheet-rt">
+          <div class="big">4.8</div>
+          <div class="stars">★★★★★</div>
+          <div class="n">214 doğrulanmış yorum</div>
+        </div>
+      </div>
+
+      <div class="stat-bars">
+        <div class="sbar">
+          <div class="lab">Anlatım</div>
+          <div class="val">9.2</div>
+          <div class="track"><div class="fill" style="width:92%"></div></div>
+        </div>
+        <div class="sbar">
+          <div class="lab">Adillik</div>
+          <div class="val">9.0</div>
+          <div class="track"><div class="fill" style="width:90%"></div></div>
+        </div>
+        <div class="sbar">
+          <div class="lab">Erişilebilirlik</div>
+          <div class="val">8.6</div>
+          <div class="track"><div class="fill mint" style="width:86%"></div></div>
+        </div>
+        <div class="sbar">
+          <div class="lab">Tavsiye Oranı</div>
+          <div class="val">%94</div>
+          <div class="track"><div class="fill" style="width:94%"></div></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn btn-red">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          Yorum Yaz
+        </button>
+        <button class="btn" style="background:#fff;border:1px solid var(--line);color:var(--ink-900)">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/></svg>
+          Takip et
+        </button>
+        <button class="btn" style="background:#fff;border:1px solid var(--line);color:var(--ink-900)">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          Paylaş
+        </button>
+      </div>
+    </div>
+
+    <div class="sheet-body">
+      <aside class="sheet-side">
+        <div class="side-title">Verdiği Dersler</div>
+        <div class="course-list">
+          <div class="crow"><div class="cc">IE 303</div><div><div class="nm">Systems Modeling</div><div class="sem">Bahar 2026 · Güz 2025</div></div></div>
+          <div class="crow"><div class="cc">IE 306</div><div><div class="nm">Operations Research</div><div class="sem">Güz 2025</div></div></div>
+          <div class="crow"><div class="cc">IE 413</div><div><div class="nm">Stochastic Models</div><div class="sem">Bahar 2025</div></div></div>
+          <div class="crow"><div class="cc">IE 501</div><div><div class="nm">Analytics for Dec.</div><div class="sem">Lisansüstü</div></div></div>
+        </div>
+
+        <div class="side-title" style="margin-top:24px">Öne çıkan etiketler</div>
+        <div class="courses-mini" style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="tag mint">Net anlatım</span>
+          <span class="tag amber">Challenging</span>
+          <span class="tag plum">Kaynak zengin</span>
+          <span class="tag">Ofis saatleri</span>
+          <span class="tag red">Gerçekçi örnekler</span>
+        </div>
+
+        <div class="side-title" style="margin-top:24px">Ders Yükü (214 yoruma göre)</div>
+        <div class="spark" style="height:40px;margin-top:4px">
+          <i style="height:30%" class="hi"></i><i style="height:50%" class="hi"></i>
+          <i style="height:72%" class="hi"></i><i style="height:88%" class="red"></i>
+          <i style="height:66%" class="hi"></i><i style="height:50%" class="hi"></i>
+          <i style="height:35%"></i>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink-500);margin-top:4px">
+          <span>Hafif</span><span>Orta</span><span>Yoğun</span>
+        </div>
+      </aside>
+
+      <div class="sheet-main">
+        <div class="tabs">
+          <button class="active">Yorumlar <span style="color:var(--ink-500);font-weight:500">· 214</span></button>
+          <button>Not Dağılımı</button>
+          <button>Trend</button>
+          <button>SSS</button>
+        </div>
+
+        <div class="review-item">
+          <div class="av">M*</div>
+          <div class="body">
+            <div class="head">
+              <div>
+                <div class="nm">Anon · Endüstri Müh. · 3. sınıf</div>
+                <div class="sem">IE 303 · Bahar 2026 · aldığı not: <b>A</b></div>
+              </div>
+              <div class="stars">★★★★★ <span style="color:var(--ink-900);font-weight:700;margin-left:4px">5.0</span></div>
+            </div>
+            <p class="txt">Hayatımda aldığım en keyifli ders. Prof. Kılıç derse hiç hazırlıksız gelmiyor, her örnek cebinden çıkmış gibi. Quiz'ler kısa ama düşündürücü, final project fazlasıyla eğitici. Ofis saatleri rezervasyonla, hakkını veriyor.</p>
+            <div class="foot">
+              <div class="btns">
+                <span class="react up">▲ 312</span>
+                <span class="react">▼ 3</span>
+                <span class="react">💬 42</span>
+              </div>
+              <span>📚 Ders yükü: <b>yoğun</b></span>
+              <span>✓ doğrulanmış</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-item">
+          <div class="av">B*</div>
+          <div class="body">
+            <div class="head">
+              <div>
+                <div class="nm">Anon · Endüstri Müh. · 4. sınıf</div>
+                <div class="sem">IE 306 · Güz 2025 · aldığı not: <b>A−</b></div>
+              </div>
+              <div class="stars">★★★★★ <span style="color:var(--ink-900);font-weight:700;margin-left:4px">4.8</span></div>
+            </div>
+            <p class="txt">Sayısal yanı kuvvetli, ama hoca teoriyi hikayeleştiriyor — böylece bir şeyler aklında kalıyor. Ders notları ayrıntılı, ama sınavda not defterinize değil, anladığınıza bakıyor. Ödev teslimi erken olsa da geri dönüş 48 saat içinde gelir.</p>
+            <div class="foot">
+              <div class="btns">
+                <span class="react up">▲ 201</span>
+                <span class="react">▼ 4</span>
+                <span class="react">💬 18</span>
+              </div>
+              <span>📚 Ders yükü: <b>orta-yoğun</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-item">
+          <div class="av">K*</div>
+          <div class="body">
+            <div class="head">
+              <div>
+                <div class="nm">Anon · Bilgisayar Müh. · 3. sınıf (minor)</div>
+                <div class="sem">IE 303 · Bahar 2025 · aldığı not: <b>B+</b></div>
+              </div>
+              <div class="stars">★★★★ <span style="color:var(--ink-900);font-weight:700;margin-left:4px">4.2</span></div>
+            </div>
+            <p class="txt">İlk bakışta anlatımın temposu hızlı geliyor; ama Prof. Kılıç her soruya detaylı geri dönüyor, takıldığın kadarıyla kaldın demek değil. İş tanımına uygun kitabi bir ders değil, sektöre yakın. Vize kartı açık yapıldı, final kapalı.</p>
+            <div class="foot">
+              <div class="btns">
+                <span class="react up">▲ 86</span>
+                <span class="react">▼ 2</span>
+                <span class="react">💬 7</span>
+              </div>
+              <span>📚 Ders yükü: <b>yoğun</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-item">
+          <div class="av">E*</div>
+          <div class="body">
+            <div class="head">
+              <div>
+                <div class="nm">Anon · Endüstri Müh. · 4. sınıf</div>
+                <div class="sem">IE 413 · Güz 2024 · aldığı not: <b>A</b></div>
+              </div>
+              <div class="stars">★★★★★ <span style="color:var(--ink-900);font-weight:700;margin-left:4px">5.0</span></div>
+            </div>
+            <p class="txt">Stochastic Models'da hoca hem matematiğin hem sezginin tartışıldığı bir atmosfer kuruyor. Term project dışarıda bir staj deneyimi gibi — gerçek veri, gerçek problem. Bitirme için adayım gibi hissediyorum.</p>
+            <div class="foot">
+              <div class="btns">
+                <span class="react up">▲ 174</span>
+                <span class="react">▼ 1</span>
+                <span class="react">💬 22</span>
+              </div>
+              <span>📚 Ders yükü: <b>yoğun</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+</div>
+
+<!-- =========================================== -->
+<!-- VIEW 3 — COURSES BROWSE                     -->
+<!-- =========================================== -->
+<div class="view" id="v-course">
+  <section class="container" style="padding-top:32px">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow">📚 Katalog</div>
+        <h2 class="sec-title serif">1,186 ders — doğru olanı bul.</h2>
+        <p class="sec-desc">Fakülte, zorluk, ders yükü veya hocaya göre filtrele. Her ders için öğrenci puanları ve açık sektörde oluşmuş etiketler.</p>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar" style="background:#fff;border:1px solid var(--line);padding:14px;border-radius:20px;box-shadow:var(--shadow-sm)">
+      <div class="search-pill" style="flex:1;min-width:260px;box-shadow:none">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Ders kodu, isim veya içerik ara…
+      </div>
+      <div class="segmented">
+        <button class="active">Tümü</button>
+        <button>FENS</button>
+        <button>FASS</button>
+        <button>SBS</button>
+        <button>SL</button>
+      </div>
+      <div class="filter-pill red">Zorluk: Tümü <span class="caret">▾</span></div>
+      <div class="filter-pill">Yük: Orta <span class="caret">▾</span></div>
+      <div class="filter-pill">Sırala: Puan <span class="caret">▾</span></div>
+      <button class="btn" style="background:var(--navy-900);color:#fff">Filtreleri Uygula</button>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:28px 0 18px">
+      <div style="color:var(--ink-500);font-size:14px"><b style="color:var(--ink-900)">248</b> sonuç · <em style="color:var(--red-500);font-style:normal">FENS</em> — Bahar 2026 aktif</div>
+      <div class="filter-bar">
+        <div class="segmented">
+          <button class="active">Grid</button>
+          <button>Liste</button>
+          <button>Karşılaştır</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-grid">
+      <!-- c1 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge fens">FENS · 200</span>
+          <span class="rc-rate">★ <b>4.6</b></span>
+        </div>
+        <div class="cc-code-big">CS 204</div>
+        <div class="cc-title">Advanced Programming · Data structures & OO design</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av">ES</span> Prof. Erkay Savaş</div>
+          <div class="cc-difficulty" title="Zorluk">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>86 yorum</span><span>Haftalık ~12 saat</span>
+        </div>
+      </a>
+
+      <!-- c2 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge fens">FENS · 300</span>
+          <span class="rc-rate">★ <b>4.8</b></span>
+        </div>
+        <div class="cc-code-big">IE 303</div>
+        <div class="cc-title">Systems Modeling · Analitik modelleme ve karar</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av" style="background:var(--red-500)">KK</span> Prof. Kemal Kılıç</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>142 yorum</span><span>Haftalık ~14 saat</span>
+        </div>
+      </a>
+
+      <!-- c3 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge fass">FASS · 100</span>
+          <span class="rc-rate">★ <b>4.5</b></span>
+        </div>
+        <div class="cc-code-big">SPS 101</div>
+        <div class="cc-title">Humanity and Society · Disiplinlerarası tartışma</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av" style="background:var(--plum)">MA</span> Doç. Merve Akın</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot"></span><span class="diff-dot"></span>
+            <span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>214 yorum</span><span>Haftalık ~6 saat</span>
+        </div>
+      </a>
+
+      <!-- c4 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge fens">FENS · 100</span>
+          <span class="rc-rate">★ <b>4.3</b></span>
+        </div>
+        <div class="cc-code-big">MATH 102</div>
+        <div class="cc-title">Calculus II · Çok değişkenli analiz ve seriler</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av">AS</span> Prof. Ahmet Seyhan</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>312 yorum</span><span>Haftalık ~10 saat</span>
+        </div>
+      </a>
+
+      <!-- c5 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge sbs">SBS · 400</span>
+          <span class="rc-rate">★ <b>4.5</b></span>
+        </div>
+        <div class="cc-code-big">MGMT 403</div>
+        <div class="cc-title">Strategic Management · Vaka temelli analiz</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av" style="background:var(--mint)">CA</span> Prof. Can Akın</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span><span class="diff-dot"></span>
+            <span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>89 yorum</span><span>Haftalık ~8 saat</span>
+        </div>
+      </a>
+
+      <!-- c6 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge fass">FASS · 100</span>
+          <span class="rc-rate">★ <b>4.9</b></span>
+        </div>
+        <div class="cc-code-big">VA 101</div>
+        <div class="cc-title">Introduction to Visual Arts · Atölye odaklı</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av" style="background:#F59E0B">SÖ</span> Dr. Selin Öztürk</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot"></span><span class="diff-dot"></span>
+            <span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>73 yorum</span><span>Haftalık ~7 saat</span>
+        </div>
+      </a>
+
+      <!-- c7 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge fens">FENS · 400</span>
+          <span class="rc-rate">★ <b>4.7</b></span>
+        </div>
+        <div class="cc-code-big">CS 401</div>
+        <div class="cc-title">Computer Networks · Protokoller ve pratikler</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av" style="background:var(--plum)">ES</span> Prof. Erkay Savaş</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>58 yorum</span><span>Haftalık ~12 saat</span>
+        </div>
+      </a>
+
+      <!-- c8 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge sl">SL · 100</span>
+          <span class="rc-rate">★ <b>4.4</b></span>
+        </div>
+        <div class="cc-code-big">ENG 101</div>
+        <div class="cc-title">Academic English I · Akademik yazım ve sunum</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av" style="background:var(--teal)">JR</span> Inst. Jane Roberts</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot"></span><span class="diff-dot"></span>
+            <span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>198 yorum</span><span>Haftalık ~5 saat</span>
+        </div>
+      </a>
+
+      <!-- c9 -->
+      <a class="course-card" href="#">
+        <div class="cc-top">
+          <span class="cc-badge fens">FENS · 300</span>
+          <span class="rc-rate">★ <b>4.6</b></span>
+        </div>
+        <div class="cc-code-big">MAT 201</div>
+        <div class="cc-title">Materials Science · Malzeme ve mikroyapı</div>
+        <div class="cc-row">
+          <div class="who"><span class="cc-who-av" style="background:var(--teal)">MY</span> Prof. Mehmet Yıldız</div>
+          <div class="cc-difficulty">
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot on"></span><span class="diff-dot on"></span>
+            <span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="cc-row" style="margin-top:8px">
+          <span>104 yorum</span><span>Haftalık ~11 saat</span>
+        </div>
+      </a>
+    </div>
+  </section>
+</div><!-- /v-course -->
+
+<!-- FOOTER -->
+<footer class="ft">
+  <div class="ft-inner">
+    <div>
+      <div class="logo" style="color:#fff">
+        <span class="logo-mark"><span>D</span></span>
+        <span>
+          <span class="name" style="color:#fff">Ders Forumu</span>
+          <span class="kicker" style="color:#94A3B8">Sabancı Üniversitesi</span>
+        </span>
+      </div>
+      <p class="brand-desc">Öğrenciler tarafından, öğrenciler için. Her yorum SU e-postası ile doğrulanır; isim asla paylaşılmaz.</p>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <a class="btn btn-red">Yorum Yaz</a>
+        <a class="btn btn-ghost" style="color:#fff">GitHub</a>
+      </div>
+    </div>
+    <div>
+      <div class="tit">Keşfet</div>
+      <a>Hocalar</a><a>Dersler</a><a>Fakülteler</a><a>Öne çıkanlar</a><a>Rozetler</a>
+    </div>
+    <div>
+      <div class="tit">Topluluk</div>
+      <a>Rehber</a><a>Yorum kuralları</a><a>Moderasyon</a><a>SSS</a>
+    </div>
+    <div>
+      <div class="tit">Proje</div>
+      <a>Hakkında</a><a>Roadmap</a><a>Ekip</a><a>Gizlilik</a>
+    </div>
+    <div>
+      <div class="tit">İletişim</div>
+      <a>dersforumu@sabanciuniv.edu</a><a>Instagram</a><a>Discord</a><a>LinkedIn</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <span>© 2026 Ders Forumu · CS436 Term Project · Sabancı Üniversitesi</span>
+    <span style="display:flex;gap:18px"><a>Türkçe</a><a>English</a><a>v1.0.0-alpha</a></span>
+  </div>
+</footer>
+
+<!-- View switcher -->
+<div class="view-switcher">
+  <button class="active" onclick="switchView('home', this)">Ana Sayfa</button>
+  <button onclick="switchView('prof', this)">Hoca Detayı</button>
+  <button onclick="switchView('course', this)">Dersler</button>
+</div>
+
+<script>
+  function switchView(name, el){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('v-'+name).classList.add('active');
+    if(el){
+      document.querySelectorAll('.view-switcher button').forEach(b=>b.classList.remove('active'));
+      el.classList.add('active');
+    }else{
+      document.querySelectorAll('.view-switcher button').forEach(b=>{
+        b.classList.toggle('active', b.textContent.trim().toLowerCase().includes(
+          name==='home'?'ana':name==='prof'?'hoca':'ders'
+        ));
+      });
+    }
+    // also sync top nav
+    document.querySelectorAll('.nav-link').forEach(a=>{
+      a.classList.toggle('active', a.dataset.v===name);
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  document.querySelectorAll('.nav-link[data-v]').forEach(a=>{
+    a.addEventListener('click',e=>{e.preventDefault();switchView(a.dataset.v)});
+  });
+</script>
+</body>
+</html>

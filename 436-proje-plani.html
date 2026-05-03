@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ders Forumu Projesi — 8 Haftalık Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --orange: #ea580c;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --aws: #d97706;
+    --aws-light: #fffbeb;
+    --red: #dc2626;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  /* HEADER */
+  .doc-header {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .doc-title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .doc-subtitle {
+    color: var(--muted);
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .doc-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 3px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* SUMMARY */
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    background: var(--accent-light);
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .sum-item { text-align: center; }
+
+  .sum-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .sum-label {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* SECTION */
+  .section { margin-bottom: 3rem; }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* WEEK CARD */
+  .week-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  .week-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: white;
+    background: var(--accent);
+    padding: 3px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .week-badge.aws { background: var(--aws); }
+  .week-badge.infra { background: var(--purple); }
+
+  .week-title {
+    font-weight: 700;
+    font-size: 1rem;
+    flex: 1;
+  }
+
+  .week-body {
+    padding: 1.5rem;
+  }
+
+  /* TASK LIST */
+  .task-block {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .task-header {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-bottom: 1px solid #bfdbfe;
+  }
+
+  .task-header.aws {
+    background: var(--aws-light);
+    color: var(--aws);
+    border-bottom: 1px solid #fde68a;
+  }
+
+  .task-header.infra {
+    background: var(--purple-light);
+    color: var(--purple);
+    border-bottom: 1px solid #ddd6fe;
+  }
+
+  .task-list {
+    padding: 0.75rem 0.9rem;
+    list-style: none;
+  }
+
+  .task-list li {
+    font-size: 0.82rem;
+    padding: 0.28rem 0;
+    padding-left: 1.1rem;
+    position: relative;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .task-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .task-list li.bonus::before { content: '+'; color: var(--orange); font-weight: 700; }
+
+  /* GOAL BOX */
+  .goal-box {
+    background: var(--green-light);
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: var(--green);
+    margin-top: 1rem;
+  }
+
+  .goal-box strong { display: block; margin-bottom: 0.2rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* WARN BOX */
+  .warn-box {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: var(--orange);
+    margin-top: 1rem;
+  }
+
+  .warn-box strong { display: block; margin-bottom: 0.2rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* INFO BOX */
+  .info-box {
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: var(--purple);
+    margin-top: 1rem;
+  }
+
+  /* CODE INLINE */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+
+  /* STACK TABLE */
+  .stack-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .stack-table th { text-align: left; padding: 0.6rem 0.75rem; background: var(--bg); border: 1px solid var(--border); font-weight: 600; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; }
+  .stack-table td { padding: 0.6rem 0.75rem; border: 1px solid var(--border); vertical-align: top; }
+  .stack-table tr:nth-child(even) td { background: var(--bg); }
+
+  .badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.63rem; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+  .badge.sen { background: var(--accent-light); color: var(--accent); }
+  .badge.aws-badge { background: var(--aws-light); color: var(--aws); }
+
+  /* GIT */
+  .git-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .git-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .git-card-header { background: var(--text); color: white; padding: 0.6rem 1rem; font-weight: 700; font-size: 0.8rem; }
+  .git-card-body { padding: 1rem; }
+
+  @media print { body { background: white; } .page { padding: 1.5rem; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-header">
+    <div class="doc-title">Ders Forumu Projesi — 8 Haftalık Plan</div>
+    <div class="doc-subtitle">Sabancı Üniversitesi'ne özel hoca & ders değerlendirme platformu</div>
+    <div class="doc-meta">
+      <span class="meta-pill">8 Hafta</span>
+      <span class="meta-pill">FastAPI + React + AWS</span>
+      <span class="meta-pill">6 AWS Servisi</span>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="sum-item"><div class="sum-value">8</div><div class="sum-label">Toplam Hafta</div></div>
+    <div class="sum-item"><div class="sum-value">6</div><div class="sum-label">AWS Servisi</div></div>
+    <div class="sum-item"><div class="sum-value">~$10</div><div class="sum-label">Aylık AWS Maliyet</div></div>
+  </div>
+
+  <!-- TECH STACK -->
+  <div class="section">
+    <div class="section-title">Teknoloji Stack</div>
+    <table class="stack-table">
+      <tr><th>Katman</th><th>Teknoloji</th><th>AWS Servisi</th><th>Not</th></tr>
+      <tr><td>Frontend</td><td>React + Tailwind</td><td>S3 + CloudFront</td><td><span class="badge aws-badge">AWS deploy eder</span></td></tr>
+      <tr><td>Backend</td><td>FastAPI (Python)</td><td>ECS + Docker</td><td><span class="badge sen">Sen yazarsın</span></td></tr>
+      <tr><td>Veritabanı</td><td>PostgreSQL + SQLAlchemy</td><td>RDS</td><td><span class="badge aws-badge">AWS yönetir</span></td></tr>
+      <tr><td>Auth</td><td>AWS Cognito</td><td>Cognito</td><td><span class="badge aws-badge">AWS halleder</span></td></tr>
+      <tr><td>Email</td><td>AWS SES</td><td>SES</td><td><span class="badge aws-badge">AWS gönderir</span></td></tr>
+      <tr><td>CI/CD</td><td>GitHub Actions</td><td>ECR + ECS</td><td><span class="badge sen">YAML yazarsın</span></td></tr>
+      <tr><td>İzleme</td><td>CloudWatch</td><td>CloudWatch</td><td><span class="badge aws-badge">AWS toplar</span></td></tr>
+    </table>
+  </div>
+
+  <!-- APP WEEKS -->
+  <div class="section">
+    <div class="section-title">Uygulama Haftaları — Hafta 1–5</div>
+
+    <!-- WEEK 1 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge">Hafta 1</span>
+        <span class="week-title">Proje Kurulumu + Veritabanı Tasarımı</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header">YAPILACAKLAR</div>
+          <ul class="task-list">
+            <li>GitHub reposu oluştur, ekip üyelerini davet et, branch yapısını kur (main / dev)</li>
+            <li>FastAPI projesini kur — klasör yapısını oluştur: <code>app/models</code>, <code>app/routes</code>, <code>app/schemas</code></li>
+            <li>SQLAlchemy ile 6 tabloyu Python sınıfı olarak yaz: users, professors, courses, professor_courses, reviews, upvotes</li>
+            <li>Docker Compose kur — FastAPI ve PostgreSQL servisleri yan yana çalışsın</li>
+            <li>Alembic kur ve ilk migration dosyasını oluştur, tabloları veritabanında yarat</li>
+            <li><code>GET /health</code> endpoint'i yaz — uygulamanın ayakta olduğunu doğrula</li>
+            <li><code>seed.py</code> dosyası yaz: 8-10 gerçekçi hoca, 15-20 ders, birkaç hoca-ders ilişkisi ekle</li>
+            <li>Script tek komutla çalışsın ve veritabanını doldursun — local'de çalıştır, veriler tablolara düzgün girdi mi kontrol et</li>
+          </ul>
+        </div>
+
+        <div class="goal-box">
+          <strong>Hafta sonu bu çalışıyor olmalı</strong>
+          <code>docker compose up</code> dediğinde hem FastAPI hem PostgreSQL ayağa kalkıyor. <code>GET /health</code> endpoint'i 200 döndürüyor. Seed data çalıştırınca tablolarda veri görünüyor.
+        </div>
+
+        <div class="info-box">
+          💡 Neden Docker Compose? Ekip farklı bilgisayarlarda çalışıyor. Docker olmadan "bende çalışıyor ama sende çalışmıyor" problemi yaşanır. Docker Compose ile herkes tamamen aynı ortamda çalışır.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge">Hafta 2</span>
+        <span class="week-title">Kullanıcı Girişi — Cognito + SES</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header">YAPILACAKLAR</div>
+          <ul class="task-list">
+            <li>AWS hesabı aç, Free Tier'ı aktive et — kredi kartı lazım ama ücret çekilmez</li>
+            <li>Cognito'da User Pool oluştur — bu kullanıcı veritabanın</li>
+            <li>Email domain kısıtlaması ekle: sadece @sabanciuniv.edu uzantılı emailler kabul edilsin</li>
+            <li>SES'te email doğrulama aktive et ve Cognito'ya bağla</li>
+            <li>SES sandbox'tan çıkmak için AWS'e başvur — bu 1-2 gün sürüyor, hemen yap</li>
+            <li>FastAPI'de her isteği karşılayan bir middleware yaz — gelen JWT token'ı Cognito'ya doğrulat</li>
+            <li>Token geçerliyse isteği ilerlet, geçersizse 401 döndür</li>
+            <li>Korumalı endpoint örneği yaz: giriş yapmadan erişilemesin</li>
+            <li>Local'de Cognito'ya bağlanıp test et</li>
+          </ul>
+        </div>
+
+        <div class="warn-box">
+          <strong>En zorlu hafta bu</strong>
+          Cognito kurulumu ilk seferde kafa karıştırıcı. "User Pool" nedir, "App Client" nedir, callback URL nedir — bunları anlamak zaman alıyor. 1 saatten fazla aynı yerde takılırsan devam etme, hemen sor. SES sandbox başvurusunu geciktirme — son haftalarda emailler gitmezse tüm prod testi mahvolur.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge">Hafta 3</span>
+        <span class="week-title">Hoca & Ders API'leri</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header">YAPILACAKLAR</div>
+          <ul class="task-list">
+            <li>Tüm hocaları listele: <code>GET /professors</code> — bölüme göre filtrele parametresi ekle</li>
+            <li>Hoca detayı getir: <code>GET /professors/{id}</code> — hocanın bilgileri + ortalama puanı</li>
+            <li>Hoca ekle: <code>POST /professors</code> — admin yetkisiyle</li>
+            <li>Her endpoint için Pydantic schema yaz — hangi alanlar dönsün, hangileri gizlensin</li>
+            <li>Tüm dersleri listele: <code>GET /courses</code></li>
+            <li>Ders detayı: <code>GET /courses/{id}</code></li>
+            <li>Hocanın derslerini getir: <code>GET /professors/{id}/courses</code> — professor_courses tablosunu kullan</li>
+            <li>Ders ekle: <code>POST /courses</code> — admin yetkisiyle</li>
+            <li>2. haftada yazılan auth middleware'i tüm endpoint'lere bağla</li>
+          </ul>
+        </div>
+
+        <div class="goal-box">
+          <strong>Hafta sonu bu çalışıyor olmalı</strong>
+          Swagger UI'dan (<code>/docs</code>) tüm endpoint'lere istek atıyorsun, doğru veriler geliyor. Giriş yapmadan istek atınca 401 alıyorsun, giriş yapınca veri geliyor.
+        </div>
+
+        <div class="info-box">
+          💡 FastAPI otomatik olarak <code>/docs</code> adresinde Swagger UI açıyor. Oradan endpoint'leri test edebiliyorsun, ayrıca Postman kurmana gerek yok.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge">Hafta 4</span>
+        <span class="week-title">Puanlama + Yorum + Upvote</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header">YAPILACAKLAR</div>
+          <ul class="task-list">
+            <li>Yorum yaz: <code>POST /reviews</code> — kullanıcı ders+hoca çifti seçiyor, puan veriyor, yorum yazıyor, anonim mi değil mi seçiyor</li>
+            <li>Yorumları getir: <code>GET /professors/{id}/reviews</code> — anonim yorumlarda kullanıcı adını gizle</li>
+            <li>Duplicate kontrolü: aynı user_id + professor_course_id çifti reviews tablosunda varsa hata döndür</li>
+            <li>Ortalama puanı hesapla ve professors tablosundaki avg_rating alanını güncelle</li>
+            <li>Upvote at: <code>POST /reviews/{id}/upvote</code> — upvotes tablosuna kayıt ekle, reviews tablosundaki upvote_count'u artır</li>
+            <li>Upvote geri al: aynı endpoint'e tekrar basınca kaldır (toggle)</li>
+            <li>Aynı kişi iki kez upvote atamaz: upvotes tablosunda user_id + review_id unique olmalı</li>
+            <li class="bonus">Arama endpoint'i: <code>GET /search?q=ahmet</code> — hoca ve ders adında LIKE sorgusu</li>
+          </ul>
+        </div>
+
+        <div class="goal-box">
+          <strong>Hafta sonu bu çalışıyor olmalı</strong>
+          Giriş yapıp yorum yazabiliyorsun. Aynı ders+hocayı iki kez puanlayınca hata alıyorsun. Anonim yorumda kullanıcı adı gelmiyor. Upvote atınca sayı artıyor, tekrar atınca azalıyor.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 5 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge">Hafta 5</span>
+        <span class="week-title">React Frontend</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header">YAPILACAKLAR</div>
+          <ul class="task-list">
+            <li>Vite + React + Tailwind kur, temel klasör yapısını oluştur</li>
+            <li>React Router ile sayfa geçişlerini ayarla: Ana sayfa, Hoca listesi, Hoca detayı</li>
+            <li>Hoca listesi sayfası: <code>GET /professors</code>'dan çek, kartlar halinde göster, bölüm filtresi ekle</li>
+            <li>Hoca profil sayfası: ortalama puan, ders listesi, yorumlar altalta</li>
+            <li>AWS Amplify kütüphanesini kur, Cognito'ya bağla</li>
+            <li>Giriş sayfası ve kayıt sayfası — Amplify hazır bileşenleri kullanılabilir</li>
+            <li>Giriş yapmadan korumalı sayfalara girilemesin — React Router'da guard ekle</li>
+            <li>Yorum formu: ders + hoca seç (dropdown), puan ver (yıldız), yorum yaz, anonim mi seç</li>
+            <li>Upvote butonu: her yorumun yanında, tıklayınca sayı değişsin</li>
+            <li class="bonus">Arama kutusu: kullanıcı yazarken API'ye istek at, sonuçları göster</li>
+          </ul>
+        </div>
+
+        <div class="warn-box">
+          <strong>Dikkat</strong>
+          Frontend'e çok zaman harcama. Tailwind'in hazır bileşen kütüphaneleri var (shadcn/ui veya daisyUI) — sıfırdan yazmak yerine bunları kullan. Hocanın baktığı şey mimari, arayüzün rengi değil.
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AWS WEEKS -->
+  <div class="section">
+    <div class="section-title">AWS & Tamamlama Haftaları — Hafta 6–8</div>
+
+    <!-- WEEK 6 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge">Hafta 6</span>
+        <span class="week-title">Test + Hata Düzeltme + Docker Hazırlığı</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header">YAPILACAKLAR</div>
+          <ul class="task-list">
+            <li>FastAPI için Dockerfile yaz: Python image'ından başla, bağımlılıkları yükle, uygulamayı başlat</li>
+            <li>Docker image'ı local'de build et ve çalıştır — uygulama container içinde de çalışıyor mu test et</li>
+            <li>Tüm environment variable'ları .env dosyasına taşı: DATABASE_URL, COGNITO_USER_POOL_ID vs.</li>
+            <li>.env.example dosyası oluştur: gerçek değerleri yazma, sadece hangi variable'ların gerektiğini göster</li>
+            <li>Tüm kullanıcı akışını baştan sona test et: kayıt ol → email doğrula → giriş yap → hoca bul → yorum yaz → upvote at</li>
+            <li>Edge case'leri test et: yanlış email formatı, duplicate yorum, geçersiz token</li>
+            <li>Tespit edilen kritik bug'ları listele, öncelik sırasına göre düzelt</li>
+          </ul>
+        </div>
+
+        <div class="goal-box">
+          <strong>Hafta sonu bu çalışıyor olmalı</strong>
+          Uygulama local'de hatasız çalışıyor. Docker ile de ayağa kalkıyor. AWS deploy için hazır.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 7 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge aws">Hafta 7</span>
+        <span class="week-title">Backend'i AWS'e Taşı — ECS + RDS + Frontend Deploy</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header aws">BACKEND — ECS + RDS</div>
+          <ul class="task-list">
+            <li>AWS Console'da RDS instance aç: PostgreSQL, db.t3.micro (ücretsiz tier), güçlü şifre koy</li>
+            <li>Security Group ayarla: ECS'in RDS'e erişebilmesi için port 5432'ye izin ver</li>
+            <li>RDS bağlantı bilgilerini .env dosyasına ekle, local'den RDS'e bağlanabildiğini test et</li>
+            <li>Alembic migration'larını RDS'e karşı çalıştır — tablolar AWS'de oluşsun</li>
+            <li>seed.py'ı RDS'e karşı çalıştır — başlangıç verileri girsin</li>
+            <li>ECR'da repository aç, Docker image'ı build edip push et</li>
+            <li>ECS Cluster oluştur, Task Definition yaz: hangi image çalışsın, ne kadar RAM/CPU kullanabilsin, hangi environment variable'lar olsun</li>
+            <li>ECS servisi ayağa kalkınca API endpoint'lerini test et — prod ortamda da çalışıyor mu?</li>
+            <li>Alembic'in ECS üzerinden de çalışabileceğinden emin ol: her deploy'da <code>alembic upgrade head</code> otomatik çalışmalı</li>
+          </ul>
+        </div>
+
+        <div class="task-block" style="margin-top: 1rem;">
+          <div class="task-header aws">FRONTEND — S3 + CloudFront</div>
+          <ul class="task-list">
+            <li>React projesinde <code>npm run build</code> komutuyla production build al — dist/ klasörü oluşur</li>
+            <li>S3 bucket aç, static website hosting aç, dist/ klasörünü yükle</li>
+            <li>CloudFront distribution oluştur: kaynak olarak S3'i göster, HTTPS zorunlu yap</li>
+            <li>React Router için CloudFront'ta 404 hatasını index.html'e yönlendir — sayfa yenilenince 404 gelmemesi için</li>
+            <li>Cognito App Client ayarlarına CloudFront URL'ini ekle: callback URL ve sign-out URL güncelle</li>
+            <li>CloudFront URL'inden siteye gir, tüm özellikleri test et</li>
+          </ul>
+        </div>
+
+        <div class="goal-box">
+          <strong>Hafta sonu bu çalışıyor olmalı</strong>
+          Site CloudFront URL'inde HTTPS'li olarak açılıyor. Kayıt olunca email geliyor. Backend ECS'de, veritabanı RDS'de, frontend CloudFront'ta çalışıyor.
+        </div>
+
+        <div class="warn-box">
+          <strong>En sık yapılan hatalar</strong>
+          Security Group'u yanlış ayarlamak — ECS ile RDS aynı VPC'de olmalı ve 5432 portuna izin verilmeli. Environment variable'ları ECS Task Definition'a eklemeyi unutmak — DATABASE_URL olmadan uygulama başlar ama crash eder. RDS kullanmadığında durdurmayı unutmak — para yakar.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 8 -->
+    <div class="week-card">
+      <div class="week-header">
+        <span class="week-badge infra">Hafta 8</span>
+        <span class="week-title">CI/CD + CloudWatch + Sunum Hazırlığı</span>
+      </div>
+      <div class="week-body">
+
+        <div class="task-block">
+          <div class="task-header infra">YAPILACAKLAR</div>
+          <ul class="task-list">
+            <li>Repo'da <code>.github/workflows/deploy.yml</code> dosyası oluştur</li>
+            <li>Workflow adımları: checkout → Docker build → ECR push → ECS deploy → migration çalıştır</li>
+            <li>AWS credentials'larını GitHub Secrets'a ekle: ACCESS_KEY, SECRET_KEY, REGION</li>
+            <li>Test et: main'e bir commit push et, Actions sekmesinde otomatik çalışıyor mu izle</li>
+            <li>CloudWatch'ta ECS ve RDS metriklerini bul: CPU kullanımı, bellek, istek sayısı, hata oranı</li>
+            <li>Dashboard oluştur: bu metrikleri tek ekranda göster</li>
+            <li>README güncelle: projeyi nasıl çalıştırırsın, mimari nedir, servisler neler</li>
+            <li>Sunum hazırla: mimari diyagramı göster, her servisin neden seçildiğini açıkla, canlı demo yap, CloudWatch ekranını göster</li>
+            <li class="bonus">Aylık maliyet tahmini hesapla ve sunuma ekle</li>
+          </ul>
+        </div>
+
+        <div class="goal-box">
+          <strong>Sunum için güçlü anlatı</strong>
+          "Auth için JWT yazmak yerine Cognito kullandım çünkü güvenlik kritik ve wheel'i yeniden icat etmek anlamsız. Email için SES, storage için S3 — her şeyi AWS'in managed servislerine bıraktım, ben sadece iş mantığına odaklandım. CI/CD sayesinde main'e push edince site otomatik güncelleniyor."
+        </div>
+
+        <div class="warn-box">
+          <strong>Sunum gününden önce</strong>
+          CloudFront URL'ini canlı tut, demo sırasında site açılmıyorsa kötü izlenim bırakır. ECS task'ının çalışır durumda olduğunu kontrol et.
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GIT FLOW -->
+  <div class="section">
+    <div class="section-title">Git Flow</div>
+
+    <div class="git-grid">
+      <div class="git-card">
+        <div class="git-card-header">Branch Yapısı</div>
+        <div class="git-card-body">
+          <ul class="task-list" style="list-style:none;padding:0;">
+            <li><code style="color:var(--red)">main</code> — sadece çalışan, test edilmiş kod. Direkt push yok.</li>
+            <li><code style="color:var(--aws)">dev</code> — aktif geliştirme. Her hafta buraya merge ediliyor.</li>
+            <li><code style="color:var(--accent)">feature/xxx</code> — her görev için ayrı branch aç, bitince dev'e PR aç.</li>
+          </ul>
+          <div style="margin-top:0.75rem;background:var(--bg);border-radius:8px;padding:0.75rem;font-family:'DM Mono',monospace;font-size:0.7rem;line-height:1.9;color:var(--muted);">
+            feature/auth-cognito<br>
+            feature/professor-api<br>
+            feature/review-system<br>
+            feature/react-frontend<br>
+            feature/ecs-deploy
+          </div>
+        </div>
+      </div>
+
+      <div class="git-card">
+        <div class="git-card-header">Her Görev İçin Akış</div>
+        <div class="git-card-body">
+          <ul class="task-list" style="list-style:none;padding:0;">
+            <li>dev'den yeni branch aç: <code>git checkout -b feature/professor-api</code></li>
+            <li>Görevini yaz, sık sık commit at</li>
+            <li>Bitince branch'i push et</li>
+            <li>GitHub'da dev'e PR aç</li>
+            <li>Ekip kodu incele, yorum yaz veya onayla</li>
+            <li>Onaylanınca merge et</li>
+            <li>Her hafta sonu: dev → main PR aç, merge et</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="git-card" style="margin-bottom:1rem;">
+      <div class="git-card-header">Commit Mesajı Formatı</div>
+      <div class="git-card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div>
+          <div style="font-size:0.72rem;font-weight:600;color:var(--muted);margin-bottom:0.5rem;text-transform:uppercase;">Format</div>
+          <div style="background:var(--bg);border-radius:8px;padding:0.75rem;font-family:'DM Mono',monospace;font-size:0.72rem;line-height:2;">
+            <span style="color:var(--green)">feat:</span> yeni özellik ekle<br>
+            <span style="color:var(--red)">fix:</span> hata düzelt<br>
+            <span style="color:var(--aws)">refactor:</span> kodu yeniden düzenle<br>
+            <span style="color:var(--purple)">docs:</span> dokümantasyon güncelle
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;font-weight:600;color:var(--muted);margin-bottom:0.5rem;text-transform:uppercase;">Örnekler</div>
+          <div style="background:var(--bg);border-radius:8px;padding:0.75rem;font-family:'DM Mono',monospace;font-size:0.72rem;line-height:2;color:var(--muted);">
+            feat: add professor list endpoint<br>
+            feat: cognito auth middleware<br>
+            fix: duplicate review check<br>
+            refactor: extract db session logic
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

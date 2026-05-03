@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   DERS FORUMU — design system (Tailwind v4 @theme)
+   ===================================================================== */
+@theme {
+  /* Brand — Sabancı navy scale */
+  --color-navy-50:  #EEF2FB;
+  --color-navy-100: #E6ECF8;
+  --color-navy-200: #C7D0E6;
+  --color-navy-300: #8FA0C9;
+  --color-navy-500: #003087;   /* Sabancı navy */
+  --color-navy-600: #1B3490;
+  --color-navy-700: #14296A;
+  --color-navy-800: #0F2047;
+  --color-navy-900: #0A1733;
+
+  /* Brand red */
+  --color-red-50:  #FFE8EC;
+  --color-red-500: #E3001B;
+  --color-red-600: #B8001A;
+
+  /* Surfaces */
+  --color-cream:   #FAF6EE;
+  --color-cream-2: #F3ECDC;
+  --color-mist:    #EEF1F7;
+  --color-line:    #E4E8F1;
+
+  /* Accents */
+  --color-amber:   #F6A623;
+  --color-mint:    #10B981;
+  --color-plum:    #7C3AED;
+  --color-teal:    #0EA5A6;
+
+  /* Fonts */
+  --font-sans:   "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif:  "Fraunces", ui-serif, Georgia, serif;
+  --font-mono:   "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background-color: var(--color-cream);
+    color: var(--color-navy-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  .serif {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    letter-spacing: -0.01em;
+  }
+  .mono { font-family: var(--font-mono); }
+}
+
+/* ---------- Reusable utilities ---------- */
+@layer components {
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .08;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+  }
+  .pulse-dot {
+    box-shadow: 0 0 0 0 rgba(227, 0, 27, 0.6);
+    animation: df-pulse 2s infinite;
+  }
+}
+
+@keyframes df-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(227, 0, 27, 0.6); }
+  70%  { box-shadow: 0 0 0 12px rgba(227, 0, 27, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(227, 0, 27, 0); }
+}
