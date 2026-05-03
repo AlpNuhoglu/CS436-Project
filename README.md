@@ -1,7 +1,7 @@
 # Ders Forumu
 
 Sabancı Üniversitesi'ne özel hoca & ders değerlendirme platformu.  
-Öğrenciler anonim olarak hoca ve ders yorumu yazabilir, dönem bazlı filtreler uygulayabilir, yorumları faydalı/faydasız olarak oylaabilir.
+Öğrenciler anonim olarak hoca ve ders yorumu yazabilir, dönem bazlı filtreler uygulayabilir, yorumları faydalı/faydasız olarak oylayabilir.
 
 ## Teknoloji
 
