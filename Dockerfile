@@ -17,9 +17,9 @@ FROM python:3.12-slim AS runtime
 
 WORKDIR /app
 
-# Sadece çalışma zamanı için gereken libpq
+# Sadece çalışma zamanı için gereken libpq + curl (ECS health check için)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libpq5 \
+        libpq5 curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Builder stage'den kurulu paketleri kopyala
@@ -35,5 +35,6 @@ USER appuser
 
 EXPOSE 8000
 
-# Uvicorn başlat — geliştirme ortamında --reload açık
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Prodüksiyon: alembic migrate → uvicorn
+# Lokal geliştirme için docker-compose.yml'de command: override kullanılır
+ENTRYPOINT ["./start.sh"]

@@ -31,6 +31,8 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-ders_forumu}
+    # Lokal geliştirme: start.sh (migrate+prod) yerine doğrudan --reload ile başlat
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     ports:
       - "8000:8000"
     volumes:

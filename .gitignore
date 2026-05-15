@@ -54,3 +54,18 @@ alembic/versions/__pycache__/
 node_modules/
 dist/
 .vite/
+
+# Root-level npm artifacts (accidental npm init in project root)
+/package.json
+/package-lock.json
+
+# Terraform
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/*.tfplan
+infra/*.tfstate
+infra/*.tfstate.backup
+infra/terraform.tfvars
+
+# gitleaks / pre-commit cache
+.gitleaks/
