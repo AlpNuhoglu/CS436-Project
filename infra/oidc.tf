@@ -75,6 +75,11 @@ data "aws_iam_policy_document" "github_deployer_perms" {
     actions   = ["s3:PutObject", "s3:DeleteObject", "s3:GetObject", "s3:ListBucket"]
     resources = [aws_s3_bucket.frontend.arn, "${aws_s3_bucket.frontend.arn}/*"]
   }
+  # KMS: encrypt/decrypt S3 objects in the frontend bucket (SSE-KMS)
+  statement {
+    actions   = ["kms:GenerateDataKey", "kms:Decrypt"]
+    resources = [aws_kms_key.main.arn]
+  }
   # CloudFront: create invalidations on deploy
   statement {
     actions   = ["cloudfront:CreateInvalidation"]
