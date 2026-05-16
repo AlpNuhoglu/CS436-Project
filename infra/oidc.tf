@@ -38,6 +38,7 @@ data "aws_iam_policy_document" "github_deployer_perms" {
     actions = [
       "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
       "ecr:InitiateLayerUpload",
       "ecr:UploadLayerPart",
       "ecr:CompleteLayerUpload",
