@@ -37,6 +37,13 @@ resource "aws_kms_key_policy" "main" {
         Principal = { Service = "cloudwatch.amazonaws.com" }
         Action   = ["kms:GenerateDataKey", "kms:Decrypt"]
         Resource = "*"
+      },
+      {
+        Sid    = "Allow CloudTrail to use the key"
+        Effect = "Allow"
+        Principal = { Service = "cloudtrail.amazonaws.com" }
+        Action   = ["kms:GenerateDataKey", "kms:Decrypt", "kms:DescribeKey"]
+        Resource = "*"
       }
     ]
   })

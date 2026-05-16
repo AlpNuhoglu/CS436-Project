@@ -48,6 +48,7 @@ resource "aws_cloudfront_distribution" "frontend" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
   price_class         = "PriceClass_100"   # US/Europe/Israel only — cheapest
+  web_acl_id          = aws_wafv2_web_acl.cloudfront.arn
 
   # No custom domain: use CloudFront's auto-assigned *.cloudfront.net URL.
   # aliases block intentionally omitted.
