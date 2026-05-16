@@ -3,7 +3,7 @@ FastAPI application entry point.
 
 Ders Forumu - Sabancı Üniversitesi hoca & ders değerlendirme platformu.
 """
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 
 from app.routes import auth
 from app.routes import health
@@ -20,24 +20,22 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Register route modules here as they are implemented.
-# Week 1: /health
-# Week 2: /me  (auth)
-# Week 3: /professors, /courses
-# Week 4: /reviews, /upvotes
-app.include_router(health.router)
-app.include_router(auth.router)
-app.include_router(me.router)
-app.include_router(professors.router)
-app.include_router(courses.router)
-app.include_router(reviews.router)
-app.include_router(search.router)
-app.include_router(stats.router)
+# All routes are prefixed with /api so CloudFront's /api/* behavior
+# forwards requests to ALB without any path rewriting needed.
+api = APIRouter(prefix="/api")
+api.include_router(health.router)
+api.include_router(auth.router)
+api.include_router(me.router)
+api.include_router(professors.router)
+api.include_router(courses.router)
+api.include_router(reviews.router)
+api.include_router(search.router)
+api.include_router(stats.router)
+app.include_router(api)
 
 
 @app.get("/")
 def root():
-    """Root endpoint - basic API info."""
     return {
         "name": "Ders Forumu API",
         "version": "0.1.0",

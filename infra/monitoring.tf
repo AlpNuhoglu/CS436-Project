@@ -44,6 +44,18 @@ resource "aws_kms_key_policy" "main" {
         Principal = { Service = "cloudtrail.amazonaws.com" }
         Action   = ["kms:GenerateDataKey", "kms:Decrypt", "kms:DescribeKey"]
         Resource = "*"
+      },
+      {
+        Sid    = "Allow CloudFront OAC to decrypt S3 objects"
+        Effect = "Allow"
+        Principal = { Service = "cloudfront.amazonaws.com" }
+        Action   = ["kms:Decrypt", "kms:GenerateDataKey"]
+        Resource = "*"
+        Condition = {
+          StringEquals = {
+            "aws:SourceArn" = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/E2WLV8Z9B1854H"
+          }
+        }
       }
     ]
   })
