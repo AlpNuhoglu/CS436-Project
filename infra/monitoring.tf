@@ -53,7 +53,7 @@ resource "aws_kms_key_policy" "main" {
         Resource = "*"
         Condition = {
           StringEquals = {
-            "aws:SourceArn" = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/E2WLV8Z9B1854H"
+            "aws:SourceArn" = aws_cloudfront_distribution.frontend.arn
           }
         }
       }
