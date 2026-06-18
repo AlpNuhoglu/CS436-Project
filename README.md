@@ -1,78 +1,87 @@
+<div align="right">
+
+**English** | [Türkçe](README.tr.md)
+
+</div>
+
 # Ders Forumu
 
-Sabancı Üniversitesi'ne özel hoca & ders değerlendirme platformu.  
-Öğrenciler anonim olarak hoca ve ders yorumu yazabilir, dönem bazlı filtreler uygulayabilir, yorumları faydalı/faydasız olarak oylayabilir.
+An anonymous instructor & course review platform built for Sabancı University students.
+Students can anonymously write reviews for professors and courses, apply semester-based filters, and vote comments as helpful or not helpful.
 
-## Teknoloji
+> 🌐 **Language:** This page is in English. Click **[Türkçe](README.tr.md)** above to read it in Turkish.
 
-| Katman | Teknoloji |
+## Tech Stack
+
+| Layer | Technology |
 |---|---|
 | Backend | FastAPI + SQLAlchemy + Alembic |
-| Veritabanı | PostgreSQL 16 |
+| Database | PostgreSQL 16 |
 | Frontend | React + TypeScript + Tailwind CSS + Vite |
-| Auth | JWT + e-posta OTP (Gmail SMTP) |
+| Auth | JWT + email OTP (Gmail SMTP) |
 | Container | Docker + Docker Compose |
+| Cloud (AWS) | ECS Fargate, RDS, ElastiCache, CloudFront, Cognito, Terraform IaC |
 
 ---
 
-## Kurulum
+## Setup
 
-### 1. Repoyu klonla
+### 1. Clone the repository
 
 ```bash
 git clone <repo-url>
 cd CS436-Project
 ```
 
-### 2. `.env` dosyasını oluştur
+### 2. Create the `.env` file
 
 ```bash
 cp .env.example .env
 ```
 
-Ardından `.env` dosyasını açıp şu alanları doldur:
+Then open `.env` and fill in the following fields:
 
-| Değişken | Açıklama |
+| Variable | Description |
 |---|---|
-| `DATABASE_URL` | Senaryo A/B'ye göre seç (dosya içinde açıklama var) |
-| `JWT_SECRET` | `openssl rand -hex 32` komutuyla üret |
-| `SMTP_USER` | Gmail adresin |
-| `SMTP_PASSWORD` | Gmail **uygulama şifresi** (normal şifren değil) |
-| `SMTP_FROM` | Gmail adresin (SMTP_USER ile aynı olabilir) |
+| `DATABASE_URL` | Choose based on Scenario A/B (explained inside the file) |
+| `JWT_SECRET` | Generate with `openssl rand -hex 32` |
+| `SMTP_USER` | Your Gmail address |
+| `SMTP_PASSWORD` | Gmail **app password** (not your regular password) |
+| `SMTP_FROM` | Your Gmail address (can be the same as SMTP_USER) |
 
-> **Gmail uygulama şifresi nasıl alınır?**  
-> Google Hesabı → Güvenlik → 2 Adımlı Doğrulama (açık olmalı) → Uygulama şifreleri → Yeni oluştur
+> **How to get a Gmail app password?**
+> Google Account → Security → 2-Step Verification (must be enabled) → App passwords → Create new
 
-> **SMTP boş bırakılırsa ne olur?**  
-> OTP kodları e-posta yerine terminal loglarına yazılır. Geliştirme ortamı için yeterlidir.
-
----
-
-## Çalıştırma
-
-Üç farklı senaryo desteklenir. Birini seç:
+> **What happens if SMTP is left empty?**
+> OTP codes are written to the terminal logs instead of being emailed. This is sufficient for a development environment.
 
 ---
 
-### Senaryo A — Her şey Docker'da (en kolay)
+## Running the App
 
-Backend + veritabanı Docker'da, frontend lokalde çalışır.
+Three different scenarios are supported. Pick one:
+
+---
+
+### Scenario A — Everything in Docker (easiest)
+
+Backend + database run in Docker, frontend runs locally.
 
 ```bash
-# 1) Container'ları başlat
+# 1) Start the containers
 docker compose up -d
 
-# 2) Migration'ları uygula (ilk kurulumda ve yeni migration geldiğinde)
+# 2) Apply migrations (on first setup and whenever a new migration arrives)
 docker exec ders_forumu_api alembic upgrade head
 
-# 3) Frontend bağımlılıklarını yükle (ilk kurulumda)
+# 3) Install frontend dependencies (on first setup)
 cd frontend && npm install
 
-# 4) Frontend'i başlat
+# 4) Start the frontend
 npm run dev
 ```
 
-| Servis | URL |
+| Service | URL |
 |---|---|
 | Frontend | http://localhost:5173 |
 | Backend API | http://localhost:8000 |
@@ -80,55 +89,55 @@ npm run dev
 
 ---
 
-### Senaryo B — Sadece DB Docker'da, backend lokal
+### Scenario B — Only DB in Docker, backend local
 
-Kod değişikliklerini hızlıca test etmek istiyorsan backend'i lokal çalıştırabilirsin.
+If you want to quickly test code changes, you can run the backend locally.
 
 ```bash
-# 1) .env içinde DATABASE_URL'yi localhost'a çevir:
+# 1) In .env, point DATABASE_URL to localhost:
 #    DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/ders_forumu
 
-# 2) Sadece veritabanını Docker'da başlat
+# 2) Start only the database in Docker
 docker compose up -d db
 
-# 3) Python sanal ortamı oluştur (ilk kurulumda)
+# 3) Create a Python virtual environment (on first setup)
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# 4) Migration'ları uygula (ilk kurulumda ve yeni migration geldiğinde)
+# 4) Apply migrations (on first setup and whenever a new migration arrives)
 alembic upgrade head
 
-# 5) Backend'i başlat
+# 5) Start the backend
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-# 6) Ayrı bir terminalde frontend'i başlat
+# 6) In a separate terminal, start the frontend
 cd frontend && npm install && npm run dev
 ```
 
 ---
 
-### Senaryo C — Her şey lokal (Docker yok)
+### Scenario C — Everything local (no Docker)
 
 ```bash
-# PostgreSQL'i kur ve başlat
+# Install and start PostgreSQL
 brew install postgresql@16
 brew services start postgresql@16
 createdb ders_forumu
 
-# .env içinde DATABASE_URL:
+# DATABASE_URL in .env:
 # DATABASE_URL=postgresql+psycopg2://postgres@localhost:5432/ders_forumu
 
-# Kalan adımlar Senaryo B'nin 3–6. adımlarıyla aynı
+# Remaining steps are the same as Scenario B's steps 3–6
 ```
 
 ---
 
-## Sıfırdan İlk Kurulum Özeti (Senaryo A)
+## First-Time Setup Summary (Scenario A)
 
 ```bash
 git clone <repo-url> && cd CS436-Project
-cp .env.example .env          # .env'i düzenle (JWT_SECRET + SMTP)
+cp .env.example .env          # edit .env (JWT_SECRET + SMTP)
 docker compose up -d
 docker exec ders_forumu_api alembic upgrade head
 cd frontend && npm install && npm run dev
@@ -136,58 +145,59 @@ cd frontend && npm install && npm run dev
 
 ---
 
-## Yeni Migration Geldiğinde
+## When a New Migration Arrives
 
-Ekip üyesi yeni migration ekledi ve `git pull` yaptıysan:
+If a teammate added a new migration and you ran `git pull`:
 
 ```bash
-# Senaryo A (Docker)
+# Scenario A (Docker)
 docker exec ders_forumu_api alembic upgrade head
 
-# Senaryo B/C (lokal backend)
+# Scenario B/C (local backend)
 alembic upgrade head
 ```
 
 ---
 
-## Proje Yapısı
+## Project Structure
 
 ```
 CS436-Project/
 ├── app/
 │   ├── main.py              # FastAPI entry point
-│   ├── config.py            # Env ayarları
+│   ├── config.py            # Env settings
 │   ├── database.py          # SQLAlchemy engine & session
-│   ├── models/              # ORM modelleri
-│   ├── routes/              # API endpoint'leri
-│   ├── schemas/             # Pydantic istek/yanıt modelleri
-│   ├── auth/                # JWT & bağımlılıklar
-│   └── utils/               # Yardımcı fonksiyonlar
+│   ├── models/              # ORM models
+│   ├── routes/              # API endpoints
+│   ├── schemas/             # Pydantic request/response models
+│   ├── auth/                # JWT & dependencies
+│   └── utils/               # Helper functions
 ├── alembic/
-│   └── versions/            # Migration dosyaları
+│   └── versions/            # Migration files
 ├── frontend/
 │   ├── src/
-│   │   ├── pages/           # Sayfa bileşenleri
-│   │   ├── components/      # Tekrar kullanılabilir bileşenler
-│   │   ├── api/             # Backend API çağrıları
-│   │   ├── contexts/        # React context'leri (Auth vb.)
-│   │   └── types/           # TypeScript tip tanımları
+│   │   ├── pages/           # Page components
+│   │   ├── components/      # Reusable components
+│   │   ├── api/             # Backend API calls
+│   │   ├── contexts/        # React contexts (Auth, etc.)
+│   │   └── types/           # TypeScript type definitions
 │   └── package.json
+├── infra/                   # Terraform infrastructure-as-code (AWS)
 ├── docker-compose.yml
 ├── Dockerfile
 ├── requirements.txt
-├── .env.example             # Kopyala → .env yap, doldur
+├── .env.example             # Copy → .env, then fill in
 └── .gitignore
 ```
 
 ---
 
-## Commit Formatı
+## Commit Format
 
 ```
-feat:     yeni özellik
-fix:      hata düzeltme
-refactor: kod düzenlemesi
-docs:     dokümantasyon
-chore:    bağımlılık / yapılandırma
+feat:     new feature
+fix:      bug fix
+refactor: code cleanup
+docs:     documentation
+chore:    dependency / configuration
 ```
